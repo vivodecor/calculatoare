@@ -34,6 +34,15 @@
   }
 
   /* ---------------- date din tabelul de preturi ---------------- */
+  function lighten(hex, k) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex); if (!m) return hex;
+    var n = parseInt(m[1], 16), out = "#";
+    each([16, 8, 0], function (sh) {
+      var c = (n >> sh) & 255; c = Math.round(c + (255 - c) * k);
+      out += ("0" + c.toString(16)).slice(-2);
+    });
+    return out;
+  }
   function parseTiers(s) {
     if (!s) return [];
     var out = [];
@@ -48,16 +57,19 @@
   function readRows() {
     ROWS = [];
     each(document.querySelectorAll("#vdRPrices tr[data-id]"), function (r) {
-      var d = r.dataset;
+      var d = r.dataset, a = r.querySelector("a[href]"), th = r.querySelector("th");
+      var full = d.full || (th ? th.textContent.replace(/\s+/g, " ").trim() : d.name);
+      var kind = d.kind, hex = d.hex || "#8A7A6A";
+      var pu = d.pu || (kind === "board" ? "m2" : kind === "support" ? "" : "ml");
       var o = {
-        id: d.id, kind: d.kind, name: d.name, full: d.full || d.name,
-        price: parseFloat(d.price), url: d.url || "",
-        hex: d.hex || "#8A7A6A", hex2: d.hex2 || d.hex || "#8A7A6A", stripe: d.stripe === "1",
-        line: d.line || "", prof: d.prof || "", len: parseFloat(d.len) || 2900,
+        id: d.id, kind: kind, name: d.name || full, full: full,
+        price: parseFloat(d.price), url: d.url || (a ? a.href : ""),
+        hex: hex, hex2: d.hex2 || lighten(hex, 0.1), stripe: d.stripe === "1",
+        line: d.line || "", prof: d.prof || "", len: parseFloat(d.len) || 0,
         a: parseFloat(d.a) || 0, b: parseFloat(d.b) || 0, cover: parseFloat(d.cover) || 0,
         tiers: parseTiers(d.tiers), kg: d.kg ? parseFloat(d.kg) : NaN,
         corner: d.corner || "", trim: d.trim || "", fam: d.fam || "",
-        sup: (d.sup || "").split(" "), st: d.st || "", pu: d.pu || "", row: r
+        sup: (d.sup || "").split(" "), st: d.st || "", pu: pu, row: r
       };
       if (!isNaN(o.price) && o.price > 0) { ROWS.push(o); BY[o.id] = o; }
     });
@@ -1015,6 +1027,9 @@
     var root = $("vdR");
     if (!root || root.getAttribute("data-ready")) return;
     readRows(); readMeta();
+    each(ROWS, function (r) {
+      if (!r.len) r.len = r.kind === "tube" ? profOf(r.prof).len : r.kind === "batten" ? 3000 : 2900;
+    });
     if (!ROWS.length || !LINES.length || !PROFS.length) return;
     root.setAttribute("data-ready", "1");
     injectLd();
