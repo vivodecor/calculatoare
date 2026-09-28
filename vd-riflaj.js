@@ -17,7 +17,7 @@
   var JSPDF_SRC = CFG.JSPDF_SRC || "";
   var TOP_ADJ = parseFloat(CFG.TOP_ADJUST) || 0;
   var CAT_URL = RC.CATEGORY_URL || "";
-  var LDJSON = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.vivodecor.ro/calculator-riflaj-wpc#app", "name": "Calculator riflaj WPC exterior \u2014 pl\u0103ci, grinzi de montaj \u0219i pre\u021b", "url": "https://www.vivodecor.ro/calculator-riflaj-wpc", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "ro-RO", "description": "Calculeaz\u0103 c\u00e2te pl\u0103ci de riflaj WPC 219 \u00d7 26 mm de 2,9 m (1,7 pl\u0103ci pe m\u00b2) \u0219i c\u00e2te grinzi de montaj sunt necesare pentru placarea unui perete sau a unei fa\u021bade, cu pre\u021buri cu TVA.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "RON"}, "publisher": {"@type": "Organization", "name": "VIVODECOR", "url": "https://www.vivodecor.ro"}}, {"@type": "FAQPage", "inLanguage": "ro-RO", "mainEntity": [{"@type": "Question", "name": "C\u00e2te pl\u0103ci de riflaj WPC intr\u0103 pe un metru p\u0103trat?", "acceptedAnswer": {"@type": "Answer", "text": "1,7 pl\u0103ci de 219 \u00d7 26 mm \u00d7 2,9 m pe m\u00b2, adic\u0103 5 metri liniari, pentru c\u0103 o plac\u0103 acoper\u0103 200 mm dup\u0103 \u00eembinare. Pentru 10 m\u00b2 sunt necesare 17 pl\u0103ci, pentru 20 m\u00b2 34 de pl\u0103ci, pentru 30 m\u00b2 51 de pl\u0103ci. Din suprafa\u021b\u0103 se scad ferestrele \u0219i u\u0219ile."}}, {"@type": "Question", "name": "Montez riflajul WPC pe vertical sau pe orizontal?", "acceptedAnswer": {"@type": "Answer", "text": "Ambele variante folosesc aceea\u0219i cantitate de pl\u0103ci, 1,7 pe m\u00b2. Alegerea \u021bine de aspect: vertical \u00eenal\u021b\u0103 vizual peretele, orizontal \u00eel l\u0103rge\u0219te. Grinzile de montaj se pun perpendicular pe pl\u0103ci: orizontal la montaj vertical \u0219i vertical la montaj orizontal."}}, {"@type": "Question", "name": "La ce distan\u021b\u0103 se monteaz\u0103 grinzile pentru riflaj WPC?", "acceptedAnswer": {"@type": "Answer", "text": "La cel mult 400 mm pe ax, perpendicular pe direc\u021bia pl\u0103cilor. Calculatorul folose\u0219te implicit 300 mm, ceea ce \u00eenseamn\u0103 aproximativ 3,8 metri liniari de grind\u0103 40 \u00d7 25 mm pe m\u00b2 de perete, apropiat de consumul de 4 ml/m\u00b2 din fi\u0219a produsului. La 400 mm, consumul scade la aproximativ 3,1 ml/m\u00b2."}}, {"@type": "Question", "name": "C\u00e2t cost\u0103 riflajul WPC pe m\u00b2 cu tot cu grinzile de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "La pre\u021burile din 20 septembrie 2026, un perete de 4 \u00d7 2,5 m (10 m\u00b2) cu 17 pl\u0103ci clasice \u0219i 15 grinzi de montaj cost\u0103 2.927,41 RON, adic\u0103 292,74 RON/m\u00b2 cu TVA; cu placa co-extrudat\u0103 220 \u00d7 26 mm, 3.232,05 RON (323,21 RON/m\u00b2). \u0218uruburile, diblurile \u0219i transportul se adaug\u0103 separat."}}, {"@type": "Question", "name": "Pot monta riflajul WPC f\u0103r\u0103 grinzi de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "Da, dac\u0103 peretele are deja o structur\u0103 din lemn sau metal cu elementele la cel mult 400 mm pe ax: pl\u0103cile se prind direct pe ea, perpendicular pe elemente, cu 20 mm dilatare pe toate laturile. Riflajul nu se lipe\u0219te \u0219i nu se prinde direct \u00een zid\u0103rie. Calculatorul porne\u0219te implicit cu op\u021biunea \u201eF\u0103r\u0103 grinzi\u201d, care calculeaz\u0103 doar pl\u0103cile; \u201eCu grinzi de montaj\u201d adaug\u0103 \u0219i grinzile WPC 40 \u00d7 25 mm."}}, {"@type": "Question", "name": "Pre\u021bul din calculator include TVA \u0219i accesoriile?", "acceptedAnswer": {"@type": "Answer", "text": "Da, toate pre\u021burile sunt cu TVA. Totalul include pl\u0103cile \u0219i, dac\u0103 le alegi, grinzile de montaj, cu reducerile de cantitate unde se aplic\u0103. \u0218uruburile, diblurile, col\u021barele, profilele de finisaj \u0219i transportul nu sunt incluse. Pre\u021bul din pagina fiec\u0103rui produs r\u0103m\u00e2ne cel oficial."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Acas\u0103", "item": "https://www.vivodecor.ro/"}, {"@type": "ListItem", "position": 2, "name": "Riflaj WPC", "item": "https://www.vivodecor.ro/riflaj-wpc"}, {"@type": "ListItem", "position": 3, "name": "Calculator riflaj WPC", "item": "https://www.vivodecor.ro/calculator-riflaj-wpc"}]}]};
+  var LDJSON = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.vivodecor.ro/calculator-riflaj-wpc#app", "name": "Calculator riflaj WPC exterior \u2014 pl\u0103ci, grinzi de montaj \u0219i pre\u021b", "url": "https://www.vivodecor.ro/calculator-riflaj-wpc", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "ro-RO", "description": "Calculeaz\u0103 c\u00e2te pl\u0103ci de riflaj WPC 219 \u00d7 26 mm de 2,9 m (1,7 pl\u0103ci pe m\u00b2) \u0219i c\u00e2te grinzi de montaj sunt necesare pentru placarea unui perete sau a unei fa\u021bade, cu pre\u021buri cu TVA.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "RON"}, "publisher": {"@type": "Organization", "name": "VIVODECOR", "url": "https://www.vivodecor.ro"}}, {"@type": "FAQPage", "inLanguage": "ro-RO", "mainEntity": [{"@type": "Question", "name": "C\u00e2te pl\u0103ci de riflaj WPC intr\u0103 pe un metru p\u0103trat?", "acceptedAnswer": {"@type": "Answer", "text": "1,7 pl\u0103ci de 219 \u00d7 26 mm \u00d7 2,9 m pe m\u00b2, adic\u0103 5 metri liniari, pentru c\u0103 o plac\u0103 acoper\u0103 200 mm dup\u0103 \u00eembinare. Pentru 10 m\u00b2 sunt necesare 17 pl\u0103ci, pentru 20 m\u00b2 34 de pl\u0103ci, pentru 30 m\u00b2 51 de pl\u0103ci."}}, {"@type": "Question", "name": "Montez riflajul WPC pe vertical sau pe orizontal?", "acceptedAnswer": {"@type": "Answer", "text": "Ambele variante folosesc aceea\u0219i cantitate de pl\u0103ci, 1,7 pe m\u00b2. Alegerea \u021bine de aspect: vertical \u00eenal\u021b\u0103 vizual peretele, orizontal \u00eel l\u0103rge\u0219te. Grinzile de montaj se pun perpendicular pe pl\u0103ci: orizontal la montaj vertical \u0219i vertical la montaj orizontal."}}, {"@type": "Question", "name": "La ce distan\u021b\u0103 se monteaz\u0103 grinzile pentru riflaj WPC?", "acceptedAnswer": {"@type": "Answer", "text": "La cel mult 400 mm pe ax, perpendicular pe direc\u021bia pl\u0103cilor. Calculatorul folose\u0219te implicit 300 mm, ceea ce \u00eenseamn\u0103 aproximativ 3,8 metri liniari de grind\u0103 40 \u00d7 25 mm pe m\u00b2 de perete, apropiat de consumul de 4 ml/m\u00b2 din fi\u0219a produsului. La 400 mm, consumul scade la aproximativ 3,1 ml/m\u00b2."}}, {"@type": "Question", "name": "C\u00e2t cost\u0103 riflajul WPC pe m\u00b2 cu tot cu grinzile de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "La pre\u021burile din 20 septembrie 2026, un perete de 4 \u00d7 2,5 m (10 m\u00b2) cu 17 pl\u0103ci clasice \u0219i 15 grinzi de montaj cost\u0103 2.927,41 RON, adic\u0103 292,74 RON/m\u00b2 cu TVA; cu placa co-extrudat\u0103 220 \u00d7 26 mm, 3.232,05 RON (323,21 RON/m\u00b2). \u0218uruburile, diblurile \u0219i transportul se adaug\u0103 separat."}}, {"@type": "Question", "name": "Pot monta riflajul WPC f\u0103r\u0103 grinzi de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "Da, dac\u0103 peretele are deja o structur\u0103 din lemn sau metal cu elementele la cel mult 400 mm pe ax: pl\u0103cile se prind direct pe ea, perpendicular pe elemente, cu 20 mm dilatare pe toate laturile. Riflajul nu se lipe\u0219te \u0219i nu se prinde direct \u00een zid\u0103rie. Calculatorul porne\u0219te implicit cu op\u021biunea \u201eF\u0103r\u0103 grinzi\u201d, care calculeaz\u0103 doar pl\u0103cile; \u201eCu grinzi de montaj\u201d adaug\u0103 \u0219i grinzile WPC 40 \u00d7 25 mm."}}, {"@type": "Question", "name": "Pre\u021bul din calculator include TVA \u0219i accesoriile?", "acceptedAnswer": {"@type": "Answer", "text": "Da, toate pre\u021burile sunt cu TVA. Totalul include pl\u0103cile \u0219i, dac\u0103 le alegi, grinzile de montaj, cu reducerile de cantitate unde se aplic\u0103. \u0218uruburile, diblurile, col\u021barele, profilele de finisaj \u0219i transportul nu sunt incluse. Pre\u021bul din pagina fiec\u0103rui produs r\u0103m\u00e2ne cel oficial."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Acas\u0103", "item": "https://www.vivodecor.ro/"}, {"@type": "ListItem", "position": 2, "name": "Riflaj WPC", "item": "https://www.vivodecor.ro/riflaj-wpc"}, {"@type": "ListItem", "position": 3, "name": "Calculator riflaj WPC", "item": "https://www.vivodecor.ro/calculator-riflaj-wpc"}]}]};
 
   var EDGE = 20, KERF = 5, BAT_ID = "grinda";
   var ARROW = "\u2192";
@@ -90,8 +90,8 @@
   function lineOf(id) { for (var i = 0; i < LINES.length; i++) if (LINES[i].id === id) return LINES[i]; return LINES[0]; }
 
   /* ---------------- stare ---------------- */
-  var S = { line: "clasic", c: "", w: 4000, h: 2900, op: 0, or: "v", sp: 300, bt: 0 };
-  var LIM = { w: [500, 40000], h: [300, 12000], op: [0, 5000] };
+  var S = { line: "clasic", c: "", w: 4000, h: 2900, or: "v", sp: 300, bt: 0 };
+  var LIM = { w: [500, 40000], h: [300, 12000] };
   var SP_OPTS = [300, 400];
 
   function boardsOfLine(l) { return rowsWhere(function (r) { return r.kind === "board" && r.line === l; }); }
@@ -137,8 +137,7 @@
     var board = curBoard(), G = geom(S.or), cover = board.cover || 200, bat = BY[BAT_ID];
     var laneW = G.vert ? S.w - 2 * EDGE : S.h - 2 * EDGE;
     var count = Math.ceil(Math.max(cover, laneW) / cover);
-    var gross = S.w * S.h / 1e6, open = Math.min(S.op, gross * 0.9), net = gross - open;
-    var ratio = gross > 0 ? net / gross : 1;
+    var gross = S.w * S.h / 1e6, net = gross, ratio = 1;
     var order = Math.max(2, Math.ceil(net * PER_M2 - 1e-9));
     var useBat = !!(S.bt && bat);
     var batBars = useBat ? pack(batPieces(G.nB, G.cross, bat.len), bat.len) : 0;
@@ -146,7 +145,7 @@
     if (useBat) items.push(item(bat, batBars));
     var total = 0, grossP = 0;
     each(items, function (it) { total += it.net; grossP += it.gross; });
-    var B = { G: G, cover: cover, count: count, gross: gross, net: net, open: open, ratio: ratio, order: order };
+    var B = { G: G, cover: cover, count: count, gross: gross, net: net, ratio: ratio, order: order };
     return {
       board: board, line: lineOf(S.line), B: B, nB: G.nB, useBat: useBat, batBars: batBars, batMl: G.nB * G.cross / 1000,
       items: items, total: total, gross: grossP, saved: grossP - total,
@@ -365,14 +364,13 @@
   }
   function fillInputs() {
     $("vdRW").value = S.w; $("vdRH").value = S.h;
-    $("vdROp").value = String(S.op).replace(".", ",");
   }
 
   /* ---------------- rezultat ---------------- */
   function linesA(r) {
     var B = r.B, l = [];
     l.push(["Tip \u0219i culoare", r.line.label + " \u00b7 " + r.board.name, true]);
-    l.push(["Suprafa\u021b\u0103 perete", num(B.gross, 2) + " m\u00b2" + (B.open > 0 ? " \u2212 goluri " + num(B.open, 2) + " = " + num(B.net, 2) + " m\u00b2" : ""), false]);
+    l.push(["Suprafa\u021b\u0103 perete", num(B.gross, 2) + " m\u00b2", false]);
     l.push(["Montaj", (S.or === "v" ? "vertical \u00b7 " + B.count + " coloane" : "orizontal \u00b7 " + B.count + " r\u00e2nduri") + " de 200 mm", false]);
     l.push(["Pl\u0103ci de 2,9 m de comandat", B.order + " buc (1,7 pl\u0103ci/m\u00b2)", true]);
     if (r.useBat) l.push(["Grinzi de montaj 3 m", r.batBars + " buc \u00b7 " + num(r.batMl, 1) + " ml, " + r.nB + " r\u00e2nduri la " + S.sp + " mm", true]);
@@ -395,7 +393,6 @@
     c.push(["chip", r.B.order + " pl\u0103ci"]);
     c.push(["chip", r.useBat ? r.batBars + " grinzi" : "f\u0103r\u0103 grinzi"]);
     c.push(["chip", S.or === "v" ? "vertical" : "orizontal"]);
-    if (S.op > r.B.gross * 0.9) c.push(["warn", "Golurile dep\u0103\u0219esc suprafa\u021ba"]);
     if (r.B.order < 2) c.push(["warn", "Minim 2 buc. pentru curier"]);
     return c;
   }
@@ -440,7 +437,6 @@
     var p = new URLSearchParams();
     if (withTest && /[?&]vdtest=1/.test(location.search)) p.set("vdtest", "1");
     p.set("ln", S.line); p.set("c", S.c); p.set("w", S.w); p.set("h", S.h); p.set("o", S.or); p.set("sp", S.sp); p.set("bt", S.bt);
-    if (S.op) p.set("op", S.op);
     return p;
   }
   function scheduleUrl() {
@@ -465,7 +461,6 @@
     if (p.get("o") === "v" || p.get("o") === "h") S.or = p.get("o");
     int("sp", 0, 999, function (v) { if (SP_OPTS.indexOf(v) > -1) S.sp = v; });
     if (p.get("bt") === "0" || p.get("bt") === "1") S.bt = +p.get("bt");
-    flt("op", LIM.op[0], LIM.op[1], function (v) { S.op = v; });
     if (p.get("w") || p.get("ln")) urlReady = true;
   }
   function fixCanonical() {
@@ -823,7 +818,6 @@
     fillInputs();
     bindNum("vdRW", "vdRFieldW", function () { return S.w; }, function (v) { S.w = v; }, LIM.w[0], function () { return LIM.w[1]; });
     bindNum("vdRH", "vdRFieldH", function () { return S.h; }, function (v) { S.h = v; }, LIM.h[0], function () { return LIM.h[1]; });
-    bindNum("vdROp", "vdRFieldOp", function () { return S.op; }, function (v) { S.op = v; }, 0, function () { return Math.floor(S.w * S.h / 1e6 * 0.9 * 100) / 100; }, true);
     renderControls();
     update();
     bindPdf();
