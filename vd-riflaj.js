@@ -288,7 +288,12 @@
     var W = S.w, H = S.h, mob = isMobile();
     var B = res.B, cover = B.cover, vert = S.or === "v";
     var F = frame(W, H, mob, 160), padL = F.padL, padT = F.padT, v = F.v, fs = F.fs, sw = F.sw, fullW = v - padL - 120;
-    var hv = H + padT + fs * 4.2;
+    var leg = [];
+    if (B.joints) leg.push(["j", "\u00eembinare: aici se \u00eent\u00e2lnesc dou\u0103 pl\u0103ci"]);
+    if (res.useBat) leg.push(["b", "grind\u0103 de montaj, la " + S.sp + " mm"]);
+    if (res.useBat && B.extraPos.length) leg.push(["d", "grind\u0103 dubl\u0103 la \u00eembinare"]);
+    var lf = fs * (mob ? 0.62 : 0.72), lh = lf * 1.8;
+    var hv = H + padT + fs * 4.2 + (leg.length ? leg.length * lh + lf * 0.6 : 0);
     svg.setAttribute("viewBox", (-padL) + " " + (-padT) + " " + v + " " + hv);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
     var defs = el("defs");
@@ -308,7 +313,7 @@
           var gx = bx + cover * k / grooves;
           if (gx < bx + bw) g.appendChild(el("line", { x1: gx, y1: EDGE, x2: gx, y2: H - EDGE, stroke: "rgba(0,0,0,.22)", "stroke-width": sw * 0.55 }));
         }
-        each(joints, function (y) { g.appendChild(el("line", { x1: bx, y1: y, x2: bx + bw, y2: y, stroke: jn, "stroke-width": sw * 1.1 })); });
+        each(joints, function (y) { g.appendChild(el("line", { x1: bx, y1: y, x2: bx + bw, y2: y, stroke: jn, "stroke-width": sw * 1.5 })); });
       } else {
         var by = H - EDGE - (i + 1) * cover, bh = cover;
         if (by < EDGE) { bh = cover - (EDGE - by); by = EDGE; }
@@ -319,7 +324,7 @@
           if (gy > by) g.appendChild(el("line", { x1: EDGE, y1: gy, x2: W - EDGE, y2: gy, stroke: "rgba(0,0,0,.22)", "stroke-width": sw * 0.55 }));
         }
         (function (by, bh) {
-          each(joints, function (x) { g.appendChild(el("line", { x1: x, y1: by, x2: x, y2: by + bh, stroke: jn, "stroke-width": sw * 1.1 })); });
+          each(joints, function (x) { g.appendChild(el("line", { x1: x, y1: by, x2: x, y2: by + bh, stroke: jn, "stroke-width": sw * 1.5 })); });
         })(by, bh);
       }
     }
@@ -342,27 +347,25 @@
     if (!mob) {
       var tx = F.textX;
       callout(g, W - EDGE - cover * 0.5, H * 0.12, tx, res.board.name, fs, sw, "#4A5A52");
-      if (res.useBat) {
-        var lx = vert ? W * 0.72 : Math.min(sp * 2, W * 0.5);
-        var ly = vert ? Math.min(Math.max(20, sp * Math.round(H * 0.34 / sp)), H - 20) : H * 0.34;
-        callout(g, lx, ly, tx, "grinzi la " + sp + " mm", fs, sw, "#5B6B78");
-        if (B.extraPos.length) {
-          var ep = B.extraPos[0];
-          if (vert) callout(g, W * 0.5, ep, tx, "grind\u0103 dubl\u0103", fs, sw, "#5B6B78");
-          else callout(g, ep, H * 0.5, tx, "grind\u0103 dubl\u0103", fs, sw, "#5B6B78");
-        }
-      }
-      if (B.joints) {
-        var jl = null, ji;
-        for (ji = 0; ji < B.lanes.length && !jl; ji++) if (B.lanes[ji].length) jl = { i: ji, p: B.lanes[ji][0] };
-        if (jl) {
-          if (vert) callout(g, EDGE + jl.i * cover + cover / 2, jl.p, tx, "\u00eembinare", fs, sw, TECH);
-          else callout(g, jl.p, H - EDGE - (jl.i + 0.5) * cover, tx, "\u00eembinare", fs, sw, TECH);
-        }
-      }
       callout(g, W - EDGE * 0.5, H * 0.66, tx, "dilatare 20 mm", fs, sw, TECH);
       person(g, F.personX, H, fs);
     }
+    /* legenda, sub cota de latime */
+    var ly0 = yDim + fs * 1.3;
+    each(leg, function (L, n) {
+      var y = ly0 + n * lh, x0 = 0, x1 = lf * 3.2;
+      if (L[0] === "j") {
+        g.appendChild(el("rect", { x: x0, y: y - lf * 0.75, width: x1, height: lf * 1.1, fill: res.board.hex, rx: lf * 0.1 }));
+        if (vert) g.appendChild(el("line", { x1: x0, y1: y - lf * 0.2, x2: x1, y2: y - lf * 0.2, stroke: jn, "stroke-width": sw * 1.5 }));
+        else g.appendChild(el("line", { x1: x1 / 2, y1: y - lf * 0.75, x2: x1 / 2, y2: y + lf * 0.35, stroke: jn, "stroke-width": sw * 1.5 }));
+      } else {
+        var dy = L[0] === "d" ? [-lf * 0.3, lf * 0.1] : [-lf * 0.1];
+        each(dy, function (d) {
+          g.appendChild(el("line", { x1: x0, y1: y + d - lf * 0.1, x2: x1, y2: y + d - lf * 0.1, stroke: "#8A98A4", "stroke-width": sw * 1.1, "stroke-dasharray": (sw * 4) + " " + (sw * 3) }));
+        });
+      }
+      g.appendChild(el("text", { x: x1 + lf * 0.6, y: y + lf * 0.2, "font-size": lf, fill: "#4A5A52", "font-family": MONO }, L[1]));
+    });
     var desc = svg.querySelector("#vdRDrawDesc");
     if (desc) desc.textContent = "Perete de " + num(W) + " \u00d7 " + num(H) + " mm placat " + (vert ? "vertical" : "orizontal") +
       " cu riflaj WPC " + res.board.name.toLowerCase() + ": " + B.count + (vert ? " coloane" : " r\u00e2nduri") +
