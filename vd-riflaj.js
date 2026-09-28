@@ -17,7 +17,7 @@
   var JSPDF_SRC = CFG.JSPDF_SRC || "";
   var TOP_ADJ = parseFloat(CFG.TOP_ADJUST) || 0;
   var CAT_URL = RC.CATEGORY_URL || "";
-  var LDJSON = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.vivodecor.ro/calculator-riflaj-wpc#app", "name": "Calculator riflaj WPC exterior \u2014 pl\u0103ci, grinzi de montaj \u0219i pre\u021b", "url": "https://www.vivodecor.ro/calculator-riflaj-wpc", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "ro-RO", "description": "Calculeaz\u0103 c\u00e2te pl\u0103ci de riflaj WPC 219 \u00d7 26 mm de 2,9 m \u0219i c\u00e2te grinzi de montaj sunt necesare pentru placarea unui perete sau a unei fa\u021bade, cu \u00eembin\u0103ri pe grind\u0103, debitare real\u0103 \u0219i pre\u021buri cu TVA.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "RON"}, "publisher": {"@type": "Organization", "name": "VIVODECOR", "url": "https://www.vivodecor.ro"}}, {"@type": "FAQPage", "inLanguage": "ro-RO", "mainEntity": [{"@type": "Question", "name": "C\u00e2te pl\u0103ci de riflaj WPC intr\u0103 pe un metru p\u0103trat?", "acceptedAnswer": {"@type": "Answer", "text": "Teoretic 1,72 pl\u0103ci de 219 \u00d7 26 mm \u00d7 2,9 m pe m\u00b2 (5 metri liniari), pentru c\u0103 o plac\u0103 acoper\u0103 200 mm dup\u0103 \u00eembinare. Valoarea este exact\u0103 doar pe pere\u021bi de 2,9 m \u00een\u0103l\u021bime. La 2,5 m consumul real este de 2 pl\u0103ci/m\u00b2, iar la 2 m de 2,5 pl\u0103ci/m\u00b2 la montaj vertical, din cauza resturilor de debitare. Pentru 10 m\u00b2 pe un perete de 3,45 \u00d7 2,9 m sunt necesare 18 pl\u0103ci."}}, {"@type": "Question", "name": "Montez riflajul WPC pe vertical sau pe orizontal?", "acceptedAnswer": {"@type": "Answer", "text": "Alegi dup\u0103 \u00een\u0103l\u021bimea peretelui. Dac\u0103 \u00een\u0103l\u021bimea este aproape de 2,9 m (sau de 1,44 m, dou\u0103 buc\u0103\u021bi dintr-o plac\u0103), montajul vertical folose\u0219te pl\u0103cile aproape f\u0103r\u0103 rest. La pere\u021bi de 2 m, montajul orizontal pe un perete de 4 m folose\u0219te 15 pl\u0103ci \u00een loc de 20. Calculatorul afi\u0219eaz\u0103 automat varianta cu mai pu\u021bine pl\u0103ci."}}, {"@type": "Question", "name": "La ce distan\u021b\u0103 se monteaz\u0103 grinzile pentru riflaj WPC?", "acceptedAnswer": {"@type": "Answer", "text": "La cel mult 400 mm pe ax, perpendicular pe direc\u021bia pl\u0103cilor. Calculatorul folose\u0219te implicit 300 mm, ceea ce \u00eenseamn\u0103 aproximativ 3,8 metri liniari de grind\u0103 40 \u00d7 25 mm pe m\u00b2 de perete la 2,9 m \u00een\u0103l\u021bime, apropiat de consumul de 4 ml/m\u00b2 din fi\u0219a produsului. La 400 mm, consumul scade la aproximativ 3,1 ml/m\u00b2."}}, {"@type": "Question", "name": "C\u00e2t cost\u0103 riflajul WPC pe m\u00b2 cu tot cu grinzile de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "La pre\u021burile din 20 septembrie 2026, un perete de 10 m\u00b2 placat vertical la 2,9 m \u00een\u0103l\u021bime cost\u0103 296,02 RON/m\u00b2 cu placa clasic\u0103 \u0219i 328,26 RON/m\u00b2 cu placa co-extrudat\u0103 220 \u00d7 26 mm, cu TVA, inclusiv grinzile de montaj. \u0218uruburile, diblurile \u0219i transportul se adaug\u0103 separat."}}, {"@type": "Question", "name": "Unde se \u00eembin\u0103 pl\u0103cile de riflaj WPC pe lungime?", "acceptedAnswer": {"@type": "Answer", "text": "Numai pe o grind\u0103 de montaj, ca ambele capete s\u0103 fie prinse cu \u0219urub, \u0219i decalat de la o coloan\u0103 (sau un r\u00e2nd) la alta, ca \u00eembin\u0103rile vecine s\u0103 nu cad\u0103 pe aceea\u0219i grind\u0103. Cu grinzi la 300 mm, cea mai lung\u0103 bucat\u0103 care se termin\u0103 pe grind\u0103 are 2,7 m, nu 2,9 m, de aceea pere\u021bii mai \u00eenal\u021bi de 2,9 m consum\u0103 mai multe pl\u0103ci dec\u00e2t arat\u0103 \u00eemp\u0103r\u021birea simpl\u0103 a suprafe\u021bei."}}, {"@type": "Question", "name": "Pot monta riflajul WPC f\u0103r\u0103 grinzi de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "Da, dac\u0103 peretele are deja o structur\u0103 din lemn sau metal cu elementele la cel mult 400 mm pe ax: pl\u0103cile se prind direct pe ea, perpendicular pe elemente, cu acelea\u0219i reguli de dilatare \u0219i \u00eembinare. Riflajul nu se lipe\u0219te \u0219i nu se prinde direct \u00een zid\u0103rie. Calculatorul are op\u021biunea \u201eF\u0103r\u0103 grinzi\u201d, care scoate grinzile din total, dar p\u0103streaz\u0103 \u00eembin\u0103rile pe structura existent\u0103."}}, {"@type": "Question", "name": "Pre\u021bul din calculator include TVA \u0219i accesoriile?", "acceptedAnswer": {"@type": "Answer", "text": "Da, toate pre\u021burile sunt cu TVA. Totalul include pl\u0103cile, grinzile de montaj (dac\u0103 le alegi), col\u021barele \u0219i profilele de finisaj, cu reducerile de cantitate unde se aplic\u0103. \u0218uruburile, diblurile \u0219i transportul nu sunt incluse. Pre\u021bul din pagina fiec\u0103rui produs r\u0103m\u00e2ne cel oficial."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Acas\u0103", "item": "https://www.vivodecor.ro/"}, {"@type": "ListItem", "position": 2, "name": "Riflaj WPC", "item": "https://www.vivodecor.ro/riflaj-wpc"}, {"@type": "ListItem", "position": 3, "name": "Calculator riflaj WPC", "item": "https://www.vivodecor.ro/calculator-riflaj-wpc"}]}]};
+  var LDJSON = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.vivodecor.ro/calculator-riflaj-wpc#app", "name": "Calculator riflaj WPC exterior \u2014 pl\u0103ci, grinzi de montaj \u0219i pre\u021b", "url": "https://www.vivodecor.ro/calculator-riflaj-wpc", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "ro-RO", "description": "Calculeaz\u0103 c\u00e2te pl\u0103ci de riflaj WPC 219 \u00d7 26 mm de 2,9 m \u0219i c\u00e2te grinzi de montaj sunt necesare pentru placarea unui perete sau a unei fa\u021bade, cu \u00eembin\u0103ri pe grind\u0103, debitare real\u0103 \u0219i pre\u021buri cu TVA.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "RON"}, "publisher": {"@type": "Organization", "name": "VIVODECOR", "url": "https://www.vivodecor.ro"}}, {"@type": "FAQPage", "inLanguage": "ro-RO", "mainEntity": [{"@type": "Question", "name": "C\u00e2te pl\u0103ci de riflaj WPC intr\u0103 pe un metru p\u0103trat?", "acceptedAnswer": {"@type": "Answer", "text": "Teoretic 1,72 pl\u0103ci de 219 \u00d7 26 mm \u00d7 2,9 m pe m\u00b2 (5 metri liniari), pentru c\u0103 o plac\u0103 acoper\u0103 200 mm dup\u0103 \u00eembinare. Valoarea este exact\u0103 doar pe pere\u021bi de 2,9 m \u00een\u0103l\u021bime. La 2,5 m consumul real este de 2 pl\u0103ci/m\u00b2, iar la 2 m de 2,5 pl\u0103ci/m\u00b2 la montaj vertical, din cauza resturilor de debitare. Pentru 10 m\u00b2 pe un perete de 3,45 \u00d7 2,9 m sunt necesare 18 pl\u0103ci."}}, {"@type": "Question", "name": "Montez riflajul WPC pe vertical sau pe orizontal?", "acceptedAnswer": {"@type": "Answer", "text": "Alegi dup\u0103 \u00een\u0103l\u021bimea peretelui. Dac\u0103 \u00een\u0103l\u021bimea este aproape de 2,9 m (sau de 1,44 m, dou\u0103 buc\u0103\u021bi dintr-o plac\u0103), montajul vertical folose\u0219te pl\u0103cile aproape f\u0103r\u0103 rest. La pere\u021bi de 2 m, montajul orizontal pe un perete de 4 m folose\u0219te 15 pl\u0103ci \u00een loc de 20. Calculatorul afi\u0219eaz\u0103 automat varianta cu mai pu\u021bine pl\u0103ci."}}, {"@type": "Question", "name": "La ce distan\u021b\u0103 se monteaz\u0103 grinzile pentru riflaj WPC?", "acceptedAnswer": {"@type": "Answer", "text": "La cel mult 400 mm pe ax, perpendicular pe direc\u021bia pl\u0103cilor. Calculatorul folose\u0219te implicit 300 mm, ceea ce \u00eenseamn\u0103 aproximativ 3,8 metri liniari de grind\u0103 40 \u00d7 25 mm pe m\u00b2 de perete la 2,9 m \u00een\u0103l\u021bime, apropiat de consumul de 4 ml/m\u00b2 din fi\u0219a produsului. La 400 mm, consumul scade la aproximativ 3,1 ml/m\u00b2."}}, {"@type": "Question", "name": "C\u00e2t cost\u0103 riflajul WPC pe m\u00b2 cu tot cu grinzile de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "La pre\u021burile din 20 septembrie 2026, un perete de 10 m\u00b2 placat vertical la 2,9 m \u00een\u0103l\u021bime cost\u0103 296,02 RON/m\u00b2 cu placa clasic\u0103 \u0219i 328,26 RON/m\u00b2 cu placa co-extrudat\u0103 220 \u00d7 26 mm, cu TVA, inclusiv grinzile de montaj. \u0218uruburile, diblurile \u0219i transportul se adaug\u0103 separat."}}, {"@type": "Question", "name": "Unde se \u00eembin\u0103 pl\u0103cile de riflaj WPC pe lungime?", "acceptedAnswer": {"@type": "Answer", "text": "Numai pe o grind\u0103, ca ambele capete s\u0103 fie prinse cu \u0219urub, \u0219i decalat de la o coloan\u0103 (sau un r\u00e2nd) la alta. Sunt dou\u0103 variante: \u00eembinarea pe o grind\u0103 obi\u0219nuit\u0103 (cu grinzi la 300 mm, cea mai lung\u0103 bucat\u0103 are 2,7 m) sau placa \u00eentreag\u0103 de 2,9 m cu o grind\u0103 dubl\u0103 suplimentar\u0103 la \u00eembinare. Nicio bucat\u0103 nu trebuie s\u0103 fie mai scurt\u0103 de 30 cm. De aceea pere\u021bii mai \u00eenal\u021bi de 2,94 m consum\u0103 mai multe pl\u0103ci dec\u00e2t arat\u0103 \u00eemp\u0103r\u021birea simpl\u0103 a suprafe\u021bei: la 4 \u00d7 3 m sunt necesare 24 de pl\u0103ci, nu 21."}}, {"@type": "Question", "name": "Pot monta riflajul WPC f\u0103r\u0103 grinzi de montaj?", "acceptedAnswer": {"@type": "Answer", "text": "Da, dac\u0103 peretele are deja o structur\u0103 din lemn sau metal cu elementele la cel mult 400 mm pe ax: pl\u0103cile se prind direct pe ea, perpendicular pe elemente, cu acelea\u0219i reguli de dilatare \u0219i \u00eembinare. Riflajul nu se lipe\u0219te \u0219i nu se prinde direct \u00een zid\u0103rie. Calculatorul porne\u0219te implicit cu op\u021biunea \u201eF\u0103r\u0103 grinzi\u201d, care calculeaz\u0103 doar pl\u0103cile \u0219i p\u0103streaz\u0103 \u00eembin\u0103rile pe structura existent\u0103; \u201eCu grinzi de montaj\u201d adaug\u0103 \u0219i grinzile WPC 40 \u00d7 25 mm."}}, {"@type": "Question", "name": "Pre\u021bul din calculator include TVA \u0219i accesoriile?", "acceptedAnswer": {"@type": "Answer", "text": "Da, toate pre\u021burile sunt cu TVA. Totalul include pl\u0103cile \u0219i, dac\u0103 le alegi, grinzile de montaj, cu reducerile de cantitate unde se aplic\u0103. \u0218uruburile, diblurile, col\u021barele, profilele de finisaj \u0219i transportul nu sunt incluse. Pre\u021bul din pagina fiec\u0103rui produs r\u0103m\u00e2ne cel oficial."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Acas\u0103", "item": "https://www.vivodecor.ro/"}, {"@type": "ListItem", "position": 2, "name": "Riflaj WPC", "item": "https://www.vivodecor.ro/riflaj-wpc"}, {"@type": "ListItem", "position": 3, "name": "Calculator riflaj WPC", "item": "https://www.vivodecor.ro/calculator-riflaj-wpc"}]}]};
 
   var EDGE = 20, KERF = 5, BAT_ID = "grinda";
   var ARROW = "\u2192";
@@ -90,9 +90,9 @@
   function lineOf(id) { for (var i = 0; i < LINES.length; i++) if (LINES[i].id === id) return LINES[i]; return LINES[0]; }
 
   /* ---------------- stare ---------------- */
-  var S = { line: "clasic", c: "", w: 4000, h: 2900, op: 0, or: "v", sp: 300, bt: 1, co: 0, tr: 0 };
-  var LIM = { w: [500, 40000], h: [300, 12000], op: [0, 5000], co: [0, 40], tr: [0, 2000] };
-  var SP_OPTS = [300, 400];
+  var S = { line: "clasic", c: "", w: 4000, h: 2900, op: 0, or: "v", sp: 300, bt: 0 };
+  var LIM = { w: [500, 40000], h: [300, 12000], op: [0, 5000] };
+  var SP_OPTS = [300, 400], MINP = 300;
 
   function boardsOfLine(l) { return rowsWhere(function (r) { return r.kind === "board" && r.line === l; }); }
   function curBoard() {
@@ -112,73 +112,105 @@
     });
     return bins.length;
   }
-  /* bucatile unei coloane / unui rand; imbinarile cad numai pe grinzi (multipli de sp),
-     iar la coloanele / randurile impare prima imbinare e cu o grinda mai jos, ca imbinarile vecine sa nu cada pe aceeasi grinda */
-  function lane(start, end, sp, bar, stagger) {
-    var pieces = [], joints = [], c = start, first = true;
-    while (end - c > bar) {
-      var x = Math.floor((c + (stagger && first ? bar - sp : bar)) / sp) * sp;
+  function item(r, q, note) {
+    var pct = tierPct(r, q);
+    var gross = q * r.price;
+    return { r: r, q: q, pct: pct, gross: gross, net: gross * (1 - pct / 100), note: note || "" };
+  }
+  /* Varianta R: imbinari numai pe grinzile obisnuite (multipli de sp);
+     la benzile impare prima imbinare e cu o grinda mai jos, ca sa fie decalate. */
+  function laneR(start, end, sp, bar, stagger) {
+    var pieces = [], joints = [], c = start, first = true, guard = 0;
+    while (end - c > bar && guard++ < 200) {
+      var x = Math.floor((c + bar) / sp) * sp;
+      if (end - x <= bar && end - x < MINP) x = Math.floor((end - MINP) / sp) * sp;
+      if (stagger && first && x - sp - c >= MINP) x -= sp;
       if (x <= c) x = c + bar;
       joints.push(x); pieces.push(x - c); c = x; first = false;
     }
     pieces.push(end - c);
     return { pieces: pieces, joints: joints };
   }
-  function boardsFor(board, orient) {
-    var cover = board.cover || 200, vert = orient === "v";
-    var wn = Math.max(cover, S.w - 2 * EDGE);
-    var count = vert ? Math.ceil(wn / cover) : Math.ceil(S.h / cover);
-    var start = vert ? 0 : EDGE, end = vert ? S.h : S.w - EDGE;
-    var pieces = [], lanes = [], nj = 0;
+  /* Varianta F: placi intregi cat incap + grinda dubla suplimentara la fiecare imbinare;
+     benzile impare incep de la capatul opus, ca imbinarile sa fie decalate. */
+  function laneF(start, end, bar, stagger) {
+    var pieces = [], joints = [], c = start, guard = 0;
+    while (end - c > bar && guard++ < 200) {
+      var x = c + bar;
+      if (end - x < MINP) x = end - MINP;
+      joints.push(x); pieces.push(x - c); c = x;
+    }
+    pieces.push(end - c);
+    if (stagger) {
+      joints = map(joints, function (x) { return start + end - x; }).reverse();
+      pieces.reverse();
+    }
+    return { pieces: pieces, joints: joints };
+  }
+  function geom(orient) {
+    var vert = orient === "v";
+    var L = vert ? S.h : S.w, cross = vert ? S.w : S.h;
+    var nB = Math.ceil(L / S.sp) + 1;
+    var reg = [];
+    for (var k = 0; k < nB; k++) reg.push(k === 0 ? 20 : k === nB - 1 ? L - 20 : k * S.sp);
+    return { vert: vert, L: L, cross: cross, nB: nB, reg: reg, start: EDGE, end: L - EDGE };
+  }
+  function batPieces(lines, len, bl) {
+    var bp = [];
+    for (var i = 0; i < lines; i++) { var rest = len; while (rest > bl) { bp.push(bl); rest -= bl; } bp.push(rest); }
+    return bp;
+  }
+  function plan(board, orient, method) {
+    var G = geom(orient), cover = board.cover || 200, bat = BY[BAT_ID];
+    var laneW = G.vert ? S.w - 2 * EDGE : S.h - 2 * EDGE;
+    var count = Math.ceil(Math.max(cover, laneW) / cover);
+    var pieces = [], lanes = [], nj = 0, extra = {};
     for (var i = 0; i < count; i++) {
-      var rr = lane(start, end, S.sp, board.len, i % 2 === 1);
+      var rr = method === "F" ? laneF(G.start, G.end, board.len, i % 2 === 1) : laneR(G.start, G.end, S.sp, board.len, i % 2 === 1);
       lanes.push(rr.joints); nj += rr.joints.length;
       each(rr.pieces, function (p) { pieces.push(p); });
+      if (method === "F") each(rr.joints, function (x) {
+        var onReg = false;
+        each(G.reg, function (p) { if (Math.abs(p - x) < 1) onReg = true; });
+        if (!onReg) extra[Math.round(x)] = 1;
+      });
     }
     var bars = pack(pieces, board.len);
     var gross = S.w * S.h / 1e6, open = Math.min(S.op, gross * 0.9), net = gross - open;
     var ratio = gross > 0 ? net / gross : 1;
     var order = Math.max(2, Math.ceil(bars * ratio - 1e-9));
-    return { cover: cover, count: count, bars: bars, lanes: lanes, joints: nj, gross: gross, net: net, open: open, ratio: ratio, order: order };
+    var extraPos = map(Object.keys(extra), function (k) { return +k; }).sort(function (a, b) { return a - b; });
+    var useBat = !!(S.bt && bat);
+    var batLines = useBat ? G.nB + 2 * extraPos.length : 0;
+    var batBars = useBat ? pack(batPieces(batLines, G.cross, bat.len), bat.len) : 0;
+    var items = [item(board, order)];
+    if (useBat) items.push(item(bat, batBars));
+    var total = 0, grossP = 0;
+    each(items, function (it) { total += it.net; grossP += it.gross; });
+    return {
+      method: method, G: G, cover: cover, count: count, lanes: lanes, joints: nj, extraPos: extraPos,
+      gross: gross, net: net, open: open, ratio: ratio, order: order, useBat: useBat,
+      batLines: batLines, batBars: batBars, batMl: batLines * G.cross / 1000,
+      items: items, total: total, grossP: grossP
+    };
   }
-  function item(r, q, note) {
-    var pct = tierPct(r, q);
-    var gross = q * r.price;
-    return { r: r, q: q, pct: pct, gross: gross, net: gross * (1 - pct / 100), note: note || "" };
+  function best(board, orient) {
+    var r = plan(board, orient, "R");
+    if (!S.bt || !BY[BAT_ID] || !r.joints) return r;
+    var f = plan(board, orient, "F");
+    return f.total < r.total - 0.005 ? f : r;
   }
   function compute() {
-    var board = curBoard(), vert = S.or === "v";
-    var B = boardsFor(board, S.or);
-    var alt = boardsFor(board, vert ? "h" : "v");
-    var bat = BY[BAT_ID];
-    var nB = Math.ceil((vert ? S.h : S.w) / S.sp) + 1;
-    var bLen = vert ? S.w : S.h;
-    var batBars = 0, useBat = !!(S.bt && bat);
-    if (useBat) {
-      var bp = [];
-      for (var i = 0; i < nB; i++) {
-        var rest = bLen;
-        while (rest > bat.len) { bp.push(bat.len); rest -= bat.len; }
-        bp.push(rest);
-      }
-      batBars = pack(bp, bat.len);
-    }
-    var items = [item(board, B.order)];
-    if (useBat) items.push(item(bat, batBars));
-    var corner = BY[board.corner], trim = BY[board.trim];
-    var cornerQty = 0, trimQty = 0;
-    if (S.co > 0 && corner) { cornerQty = S.co * Math.ceil(S.h / corner.len); items.push(item(corner, cornerQty, "col\u021bar")); }
-    if (S.tr > 0 && trim) { trimQty = Math.ceil(S.tr * 1000 / trim.len * 1.05 - 1e-9); items.push(item(trim, trimQty, "finisaj")); }
-    var total = 0, gross = 0;
-    each(items, function (it) { total += it.net; gross += it.gross; });
+    var board = curBoard();
+    var B = best(board, S.or);
+    var alt = best(board, S.or === "v" ? "h" : "v");
     return {
-      board: board, line: lineOf(S.line), B: B, alt: alt, nB: nB, bLen: bLen, useBat: useBat, batBars: batBars,
-      batMl: nB * bLen / 1000, items: items, total: total, gross: gross, saved: gross - total,
-      perM2: B.net > 0 ? total / B.net : 0,
-      screws: Math.ceil(B.count * nB * B.ratio) + B.joints,
-      anchors: useBat ? nB * (Math.ceil(bLen / 500) + 1) : 0,
-      weight: isNaN(board.kg) ? NaN : B.order * board.kg,
-      cornerQty: cornerQty, trimQty: trimQty
+      board: board, line: lineOf(S.line), B: B, alt: alt, nB: B.G.nB, useBat: B.useBat, batBars: B.batBars, batMl: B.batMl,
+      items: B.items, total: B.total, gross: B.grossP, saved: B.grossP - B.total,
+      perM2: B.net > 0 ? B.total / B.net : 0,
+      screws: Math.ceil(B.count * B.G.nB * B.ratio) + 2 * B.joints,
+      anchors: B.useBat ? B.batLines * (Math.ceil(B.G.cross / 500) + 1) : 0,
+      weight: isNaN(board.kg) ? NaN : B.order * board.kg
     };
   }
 
@@ -271,15 +303,15 @@
       if (vert) {
         var bx = EDGE + i * cover, bw = Math.min(cover, W - EDGE - bx);
         if (bw <= 0) break;
-        g.appendChild(el("rect", { x: bx, y: 0, width: bw, height: H, fill: "url(#vdRGrad)", stroke: "rgba(0,0,0,.30)", "stroke-width": sw * 0.5 }));
+        g.appendChild(el("rect", { x: bx, y: EDGE, width: bw, height: H - 2 * EDGE, fill: "url(#vdRGrad)", stroke: "rgba(0,0,0,.30)", "stroke-width": sw * 0.5 }));
         if (!many) for (k = 1; k < grooves; k++) {
           var gx = bx + cover * k / grooves;
-          if (gx < bx + bw) g.appendChild(el("line", { x1: gx, y1: 0, x2: gx, y2: H, stroke: "rgba(0,0,0,.22)", "stroke-width": sw * 0.55 }));
+          if (gx < bx + bw) g.appendChild(el("line", { x1: gx, y1: EDGE, x2: gx, y2: H - EDGE, stroke: "rgba(0,0,0,.22)", "stroke-width": sw * 0.55 }));
         }
         each(joints, function (y) { g.appendChild(el("line", { x1: bx, y1: y, x2: bx + bw, y2: y, stroke: jn, "stroke-width": sw * 1.1 })); });
       } else {
-        var by = H - (i + 1) * cover, bh = cover;
-        if (by < 0) { bh = cover + by; by = 0; }
+        var by = H - EDGE - (i + 1) * cover, bh = cover;
+        if (by < EDGE) { bh = cover - (EDGE - by); by = EDGE; }
         if (bh <= 0) break;
         g.appendChild(el("rect", { x: EDGE, y: by, width: W - 2 * EDGE, height: bh, fill: "url(#vdRGrad)", stroke: "rgba(0,0,0,.30)", "stroke-width": sw * 0.5 }));
         if (!many) for (k = 1; k < grooves; k++) {
@@ -291,13 +323,16 @@
         })(by, bh);
       }
     }
-    /* grinzile (sau structura existenta), desenate transparent peste placare */
-    var sp = S.sp, nB = res.nB, j, runL = vert ? H : W;
-    var bc = res.useBat ? "#E9C46A" : "#9AA8B4";
-    for (j = 0; j < nB; j++) {
-      var pos = j === 0 ? 20 : j === nB - 1 ? runL - 20 : j * sp;
-      if (vert) g.appendChild(el("line", { x1: 0, y1: pos, x2: W, y2: pos, stroke: bc, "stroke-width": sw * 1.1, "stroke-dasharray": (sw * 4) + " " + (sw * 3), opacity: ".85" }));
-      else g.appendChild(el("line", { x1: pos, y1: 0, x2: pos, y2: H, stroke: bc, "stroke-width": sw * 1.1, "stroke-dasharray": (sw * 4) + " " + (sw * 3), opacity: ".85" }));
+    /* grinzile de montaj: doar cand sunt incluse in calcul */
+    var sp = S.sp, j, runL = vert ? H : W, BC = "#8A98A4";
+    function batLine(pos, wdt) {
+      var a = { stroke: BC, "stroke-width": sw * wdt, "stroke-dasharray": (sw * 4) + " " + (sw * 3), opacity: ".9" };
+      if (vert) { a.x1 = 0; a.x2 = W; a.y1 = a.y2 = pos; } else { a.y1 = 0; a.y2 = H; a.x1 = a.x2 = pos; }
+      g.appendChild(el("line", a));
+    }
+    if (res.useBat) {
+      each(B.G.reg, function (pos) { batLine(pos, 1.1); });
+      each(B.extraPos, function (pos) { batLine(pos - 25, 1.1); batLine(pos + 25, 1.1); });
     }
     var yDim = H + fs * 2.2;
     g.appendChild(el("line", { x1: 0, y1: H, x2: 0, y2: yDim + fs * 0.6, stroke: TECH, "stroke-width": sw * 0.6, "stroke-dasharray": "14 12" }));
@@ -307,15 +342,22 @@
     if (!mob) {
       var tx = F.textX;
       callout(g, W - EDGE - cover * 0.5, H * 0.12, tx, res.board.name, fs, sw, "#4A5A52");
-      var lx = vert ? W * 0.72 : Math.min(sp * 2, W * 0.5);
-      var ly = vert ? Math.min(Math.max(20, sp * Math.round(H * 0.34 / sp)), H - 20) : H * 0.34;
-      callout(g, lx, ly, tx, (res.useBat ? "grinzi" : "structur\u0103") + " la " + sp + " mm", fs, sw, res.useBat ? "#B4650F" : TECH);
+      if (res.useBat) {
+        var lx = vert ? W * 0.72 : Math.min(sp * 2, W * 0.5);
+        var ly = vert ? Math.min(Math.max(20, sp * Math.round(H * 0.34 / sp)), H - 20) : H * 0.34;
+        callout(g, lx, ly, tx, "grinzi la " + sp + " mm", fs, sw, "#5B6B78");
+        if (B.extraPos.length) {
+          var ep = B.extraPos[0];
+          if (vert) callout(g, W * 0.5, ep, tx, "grind\u0103 dubl\u0103", fs, sw, "#5B6B78");
+          else callout(g, ep, H * 0.5, tx, "grind\u0103 dubl\u0103", fs, sw, "#5B6B78");
+        }
+      }
       if (B.joints) {
         var jl = null, ji;
         for (ji = 0; ji < B.lanes.length && !jl; ji++) if (B.lanes[ji].length) jl = { i: ji, p: B.lanes[ji][0] };
         if (jl) {
           if (vert) callout(g, EDGE + jl.i * cover + cover / 2, jl.p, tx, "\u00eembinare", fs, sw, TECH);
-          else callout(g, jl.p, H - (jl.i + 0.5) * cover, tx, "\u00eembinare", fs, sw, TECH);
+          else callout(g, jl.p, H - EDGE - (jl.i + 0.5) * cover, tx, "\u00eembinare", fs, sw, TECH);
         }
       }
       callout(g, W - EDGE * 0.5, H * 0.66, tx, "dilatare 20 mm", fs, sw, TECH);
@@ -324,8 +366,8 @@
     var desc = svg.querySelector("#vdRDrawDesc");
     if (desc) desc.textContent = "Perete de " + num(W) + " \u00d7 " + num(H) + " mm placat " + (vert ? "vertical" : "orizontal") +
       " cu riflaj WPC " + res.board.name.toLowerCase() + ": " + B.count + (vert ? " coloane" : " r\u00e2nduri") +
-      " de 200 mm, " + nB + (res.useBat ? " grinzi de montaj" : " elemente de structur\u0103") + " la " + sp + " mm" +
-      (B.joints ? ", " + B.joints + " \u00eembin\u0103ri decalate, toate pe grind\u0103." : ".");
+      " de 200 mm" + (res.useBat ? ", grinzi de montaj la " + sp + " mm" : "") +
+      (B.joints ? ", " + B.joints + " \u00eembin\u0103ri decalate" : "") + ".";
   }
 
   /* ---------------- controale ---------------- */
@@ -362,7 +404,7 @@
     swatches("vdRSwA", boardsOfLine(S.line), board.id, "plac\u0103", function (r) { S.c = r.id; });
     seg("vdROrient", ["v", "h"], function (o) { return o === "v" ? "Vertical" : "Orizontal"; },
       function (o) { return S.or === o; }, function (o) { S.or = o; });
-    seg("vdRBat", [1, 0], function (b) { return b ? "Cu grinzi de montaj<small>incluse \u00een calcul</small>" : "F\u0103r\u0103 grinzi<small>am deja structura</small>"; },
+    seg("vdRBat", [0, 1], function (b) { return b ? "Cu grinzi de montaj<small>incluse \u00een calcul</small>" : "F\u0103r\u0103 grinzi<small>am deja structura</small>"; },
       function (b) { return S.bt === b; }, function (b) { S.bt = b; });
     seg("vdRSpace", SP_OPTS, function (s) { return s + " mm" + (s === 300 ? " (recomandat)" : " (maxim)"); },
       function (s) { return S.sp === s; }, function (s) { S.sp = s; });
@@ -395,7 +437,7 @@
   }
   function fillInputs() {
     $("vdRW").value = S.w; $("vdRH").value = S.h;
-    $("vdROp").value = String(S.op).replace(".", ","); $("vdRCo").value = S.co; $("vdRTr").value = String(S.tr).replace(".", ",");
+    $("vdROp").value = String(S.op).replace(".", ",");
   }
 
   /* ---------------- rezultat ---------------- */
@@ -405,11 +447,10 @@
     l.push(["Suprafa\u021b\u0103 perete", num(B.gross, 2) + " m\u00b2" + (B.open > 0 ? " \u2212 goluri " + num(B.open, 2) + " = " + num(B.net, 2) + " m\u00b2" : ""), false]);
     l.push(["Montaj", (S.or === "v" ? "vertical \u00b7 " + B.count + " coloane" : "orizontal \u00b7 " + B.count + " r\u00e2nduri") + " de 200 mm", false]);
     l.push(["Pl\u0103ci de 2,9 m de comandat", B.order + " buc", true]);
-    if (B.joints) l.push(["\u00cembin\u0103ri pe lungime", B.joints + ", decalate, toate pe grind\u0103", false]);
-    if (r.useBat) l.push(["Grinzi de montaj 3 m", r.batBars + " buc \u00b7 " + num(r.batMl, 1) + " ml, " + r.nB + " r\u00e2nduri la " + S.sp + " mm", true]);
+    if (B.joints) l.push(["\u00cembin\u0103ri pe lungime", B.joints + ", decalate" + (B.method === "F" ? ", pl\u0103ci \u00eentregi + grind\u0103 dubl\u0103" : ", pe grinzi"), false]);
+    if (r.useBat) l.push(["Grinzi de montaj 3 m", r.batBars + " buc \u00b7 " + num(r.batMl, 1) + " ml, " + r.nB + " r\u00e2nduri la " + S.sp + " mm" +
+      (B.extraPos.length ? " + " + B.extraPos.length + " duble la \u00eembin\u0103ri" : ""), true]);
     else l.push(["Grinzi de montaj", "nu sunt incluse (structur\u0103 existent\u0103 la " + S.sp + " mm)", false]);
-    if (r.cornerQty) l.push(["Col\u021bare exterioare", r.cornerQty + " buc \u00b7 " + S.co + " col\u021buri", false]);
-    if (r.trimQty) l.push(["Profile de finisaj", r.trimQty + " buc \u00b7 " + num(S.tr, 1) + " ml", false]);
     l.push(["\u0218uruburi pl\u0103ci (orientativ)", "~" + r.screws + " buc, cap \u00eenecat", false]);
     if (r.useBat) l.push(["Dibluri grinzi (orientativ)", "~" + r.anchors + " buc, la 500 mm", false]);
     if (!isNaN(r.weight)) l.push(["Greutate pl\u0103ci", num(r.weight) + " kg", false]);
@@ -428,8 +469,8 @@
     c.push(["chip", r.B.order + " pl\u0103ci"]);
     c.push(["chip", r.useBat ? r.batBars + " grinzi" : "f\u0103r\u0103 grinzi"]);
     c.push(["chip", S.or === "v" ? "vertical" : "orizontal"]);
-    if (r.alt.order < r.B.order) c.push(["warn", (S.or === "v" ? "Orizontal" : "Vertical") + ": " + r.alt.order + " pl\u0103ci (\u2212" + (r.B.order - r.alt.order) + ")"]);
-    if (r.B.joints) c.push(["chip", r.B.joints + " \u00eembin\u0103ri, pe grind\u0103"]);
+    if (r.alt.total < r.B.total - 0.5) c.push(["warn", (S.or === "v" ? "Orizontal" : "Vertical") + " iese cu " + num(r.B.total - r.alt.total) + " RON mai ieftin"]);
+    if (r.B.joints) c.push(["chip", r.B.joints + " \u00eembin\u0103ri" + (r.B.method === "F" ? " \u00b7 grinzi duble" : "")]);
     if (S.op > r.B.gross * 0.9) c.push(["warn", "Golurile dep\u0103\u0219esc suprafa\u021ba"]);
     if (r.B.order < 2) c.push(["warn", "Minim 2 buc. pentru curier"]);
     return c;
@@ -475,7 +516,7 @@
     var p = new URLSearchParams();
     if (withTest && /[?&]vdtest=1/.test(location.search)) p.set("vdtest", "1");
     p.set("ln", S.line); p.set("c", S.c); p.set("w", S.w); p.set("h", S.h); p.set("o", S.or); p.set("sp", S.sp); p.set("bt", S.bt);
-    if (S.op) p.set("op", S.op); if (S.co) p.set("co", S.co); if (S.tr) p.set("tr", S.tr);
+    if (S.op) p.set("op", S.op);
     return p;
   }
   function scheduleUrl() {
@@ -501,8 +542,6 @@
     int("sp", 0, 999, function (v) { if (SP_OPTS.indexOf(v) > -1) S.sp = v; });
     if (p.get("bt") === "0" || p.get("bt") === "1") S.bt = +p.get("bt");
     flt("op", LIM.op[0], LIM.op[1], function (v) { S.op = v; });
-    int("co", LIM.co[0], LIM.co[1], function (v) { S.co = v; });
-    flt("tr", LIM.tr[0], LIM.tr[1], function (v) { S.tr = v; });
     if (p.get("w") || p.get("ln")) urlReady = true;
   }
   function fixCanonical() {
@@ -662,7 +701,7 @@
     y += 66;
     o.push('<rect x="52" y="' + y + '" width="690" height="42" fill="#E9F2EC" rx="3"/>');
     o.push('<text x="64" y="' + (y + 18) + '" font-family="' + F + '" font-size="10.5" fill="' + green + '">' +
-      (r.useBat ? "\u0218uruburile \u0219i diblurile nu sunt incluse. Grinzile se prind la maximum 400 mm ax, cu 20 mm dilatare la margini." :
+      (r.useBat ? "\u0218uruburile \u0219i diblurile nu sunt incluse. Grinzi la maximum 400 mm ax, 20 mm dilatare pe toate laturile." :
         "Grinzile de montaj nu sunt incluse: pl\u0103cile se prind pe structura existent\u0103, cu \u00eembin\u0103rile pe elementele ei.") + "</text>");
     o.push('<text x="64" y="' + (y + 33) + '" font-family="' + F + '" font-size="10.5" fill="' + green + '">Transportul se oferteaz\u0103 separat. Pre\u021burile din pagina fiec\u0103rui produs sunt cele oficiale.</text>');
     LINK_BOX.y = Math.max(y + 56, 900);
@@ -754,7 +793,7 @@
         necesar_ml: +(r.B.order * 2.9).toFixed(2),
         total_ron: +r.total.toFixed(2),
         cere_cadre: false, cere_stalpi: false,
-        calculator: "riflaj", configuratie: cfg + (r.useBat ? "" : "; fara grinzi (structura existenta)"),
+        calculator: "riflaj", configuratie: cfg + (r.useBat ? "" : "; fara grinzi (structura existenta)") + (r.B.method === "F" ? "; placi intregi + grinzi duble la imbinari" : ""),
         data: new Date().toISOString()
       };
       fetch(LEAD_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
@@ -861,8 +900,6 @@
     bindNum("vdRW", "vdRFieldW", function () { return S.w; }, function (v) { S.w = v; }, LIM.w[0], function () { return LIM.w[1]; });
     bindNum("vdRH", "vdRFieldH", function () { return S.h; }, function (v) { S.h = v; }, LIM.h[0], function () { return LIM.h[1]; });
     bindNum("vdROp", "vdRFieldOp", function () { return S.op; }, function (v) { S.op = v; }, 0, function () { return Math.floor(S.w * S.h / 1e6 * 0.9 * 100) / 100; }, true);
-    bindNum("vdRCo", null, function () { return S.co; }, function (v) { S.co = v; }, LIM.co[0], function () { return LIM.co[1]; });
-    bindNum("vdRTr", null, function () { return S.tr; }, function (v) { S.tr = v; }, LIM.tr[0], function () { return LIM.tr[1]; }, true);
     renderControls();
     update();
     bindPdf();
