@@ -1,0 +1,872 @@
+/* ============================================================
+   VIVODECOR - Calculator Lambriu WPC fatada (motor)
+   Fisier extern, incarcat de incarcatorul din Design -> JS
+   numai pe pagina /calculator-lambriu-wpc (#vdL).
+   Setarile (LEAD_URL, LEAD_TOKEN, JSPDF_SRC, TOP_ADJUST) se citesc
+   din window.VD_CONFIG, deja existent pentru calculatorul de gard.
+   Construit dupa motorul riflaj (vd-riflaj.src.js); prefix ID-uri vdL.
+   ============================================================ */
+(function () {
+  "use strict";
+  if (window.__vdLambriuLoaded) return;
+  window.__vdLambriuLoaded = true;
+
+  var CFG = window.VD_CONFIG || {};
+  var LC = window.VD_LAMBRIU || {};
+  var LEAD_URL = CFG.LEAD_URL || "";
+  var LEAD_TOKEN = CFG.LEAD_TOKEN || "";
+  var JSPDF_SRC = CFG.JSPDF_SRC || "";
+  var TOP_ADJ = parseFloat(CFG.TOP_ADJUST) || 0;
+  var CAT_URL = LC.CATEGORY_URL || "";
+  var LDJSON = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.vivodecor.ro/calculator-lambriu-wpc#app", "name": "Calculator lambriu WPC fa\u021bad\u0103 \u2014 lamele, grinzi de montaj, profile L \u0219i pre\u021b", "url": "https://www.vivodecor.ro/calculator-lambriu-wpc", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "ro-RO", "description": "Calculeaz\u0103 c\u00e2te lamele de lambriu WPC de 2,9 m (2,7 pe m\u00b2), c\u00e2te grinzi de montaj \u0219i c\u00e2te profile L de col\u021b sunt necesare pentru placarea unei fa\u021bade, cu pre\u021buri cu TVA.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "RON"}, "publisher": {"@type": "Organization", "name": "VIVODECOR", "url": "https://www.vivodecor.ro"}}, {"@type": "FAQPage", "inLanguage": "ro-RO", "mainEntity": [{"@type": "Question", "name": "C\u00e2te lamele de lambriu WPC intr\u0103 pe un metru p\u0103trat?", "acceptedAnswer": {"@type": "Answer", "text": "2,7 lamele de 2,9 m pe m\u00b2, adic\u0103 8 metri liniari. Lamela de 150 \u00d7 20 mm acoper\u0103 132 mm dup\u0103 \u00eembinare, deci un m\u00b2 cere 7,6 ml; regula de 8 ml las\u0103 o mic\u0103 rezerv\u0103 pentru t\u0103ieturi. Pentru 10 m\u00b2 sunt necesare 27 de lamele, pentru 20 m\u00b2 54, pentru 30 m\u00b2 81."}}, {"@type": "Question", "name": "C\u00e2t cost\u0103 lambriul WPC pe m\u00b2 cu tot cu grinzile?", "acceptedAnswer": {"@type": "Answer", "text": "La pre\u021burile din 3 octombrie 2026, lamelele cost\u0103 188,95 RON/m\u00b2 cu TVA. O fa\u021bad\u0103 de 4 \u00d7 2,5 m (10 m\u00b2) cu 27 de lamele \u0219i 15 grinzi de montaj cost\u0103 2.604,96 RON, adic\u0103 260,50 RON/m\u00b2. Profilele L pentru col\u021buri \u0219i transportul se adaug\u0103 separat."}}, {"@type": "Question", "name": "La ce distan\u021b\u0103 se monteaz\u0103 grinzile pentru lambriu WPC?", "acceptedAnswer": {"@type": "Answer", "text": "La aproximativ 300 mm una de alta, f\u0103r\u0103 a dep\u0103\u0219i 400 mm, perpendicular pe lamele: verticale pentru lambriu orizontal, orizontale pentru lambriu vertical. La 300 mm consumul e de aproximativ 3,5 metri liniari de grind\u0103 40 \u00d7 30 mm pe m\u00b2 de fa\u021bad\u0103."}}, {"@type": "Question", "name": "Montez lambriul WPC orizontal sau vertical?", "acceptedAnswer": {"@type": "Answer", "text": "Ambele variante folosesc aceea\u0219i cantitate de lamele, 2,7 pe m\u00b2. Orizontal e montajul clasic de fa\u021bad\u0103 \u0219i l\u0103rge\u0219te vizual peretele; vertical \u00eel \u00eenal\u021b\u0103. Montajul \u00eencepe de jos \u00een sus, iar fiecare lamel\u0103 se a\u0219az\u0103 peste cea deja fixat\u0103."}}, {"@type": "Question", "name": "Pot monta lambriul WPC pe un perete izolat cu polistiren?", "acceptedAnswer": {"@type": "Answer", "text": "Da. Grinzile de montaj se ancoreaz\u0103 prin stratul de polistiren direct \u00een zid\u0103rie, apoi lamelele se prind de grinzi. Lambriul nu se lipe\u0219te cu silicon sau adeziv pe nicio suprafa\u021b\u0103: montajul se face doar mecanic, pe grinzi, la cel mult 400 mm \u00eentre ele."}}, {"@type": "Question", "name": "De c\u00e2te profile L am nevoie pentru col\u021buri?", "acceptedAnswer": {"@type": "Answer", "text": "De c\u00e2te un profil L pe fiecare col\u021b exterior, pe toat\u0103 \u00een\u0103l\u021bimea peretelui. Profilul are 2,9 m: pentru un perete de p\u00e2n\u0103 la 2,9 m \u00een\u0103l\u021bime intr\u0103 un profil pe col\u021b. Gri, Maro \u0219i Bej au profil L 55 \u00d7 45 mm \u00een aceea\u0219i culoare; Aramiu 3D are profil L 50 \u00d7 50 mm Aramiu."}}, {"@type": "Question", "name": "Pre\u021bul din calculator include TVA \u0219i accesoriile?", "acceptedAnswer": {"@type": "Answer", "text": "Da, toate pre\u021burile sunt cu TVA. Totalul include lamelele \u0219i, dac\u0103 le alegi, grinzile de montaj \u0219i profilele L. Transportul nu este inclus. Pre\u021bul din pagina fiec\u0103rui produs r\u0103m\u00e2ne cel oficial."}}, {"@type": "Question", "name": "Pot vedea lambriul WPC \u00eenainte de a comanda?", "acceptedAnswer": {"@type": "Answer", "text": "Da. Po\u021bi comanda mostre de lambriu de pe site sau po\u021bi vedea lamelele \u00een showroomul VIVODECOR din Cluj-Napoca ori la punctul de lucru din Bucure\u0219ti. Mostrele sunt recomandate pentru culoare: pe ecran nuan\u021ba poate ar\u0103ta diferit."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Acas\u0103", "item": "https://www.vivodecor.ro/"}, {"@type": "ListItem", "position": 2, "name": "Lambriu WPC", "item": "https://www.vivodecor.ro/lambriu-wpc"}, {"@type": "ListItem", "position": 3, "name": "Calculator lambriu WPC", "item": "https://www.vivodecor.ro/calculator-lambriu-wpc"}]}]};
+
+  var KERF = 5, BAT_ID = "grinda";
+  /* Consum: 2,7 lamele de 2,9 m pe m2 (8 ml/m2), ca in descrierea produsului:
+     10 m2 = 27 lamele. Aceeasi regula si pentru lambriul 3D 145 x 19. */
+  var PER_M2 = 2.7;
+  var ARROW = "→";
+
+  function $(id) { return document.getElementById(id); }
+  function each(list, fn) { for (var i = 0; i < list.length; i++) fn(list[i], i); }
+  function map(list, fn) { var o = []; each(list, function (x, i) { o.push(fn(x, i)); }); return o; }
+  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  function money(v) { return v.toLocaleString("ro-RO", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function num(v, d) { d = d === undefined ? 0 : d; return v.toLocaleString("ro-RO", { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  var AMP = String.fromCharCode(38), QUO = String.fromCharCode(34);
+  function esc(s) {
+    return String(s).split(AMP).join(AMP + "amp;").split("<").join(AMP + "lt;")
+      .split(">").join(AMP + "gt;").split(QUO).join(AMP + "quot;");
+  }
+
+  /* ---------------- date din tabelul de preturi ---------------- */
+  function lighten(hex, k) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex); if (!m) return hex;
+    var n = parseInt(m[1], 16), out = "#";
+    each([16, 8, 0], function (sh) {
+      var c = (n >> sh) & 255; c = Math.round(c + (255 - c) * k);
+      out += ("0" + c.toString(16)).slice(-2);
+    });
+    return out;
+  }
+  function parseTiers(s) {
+    if (!s) return [];
+    var out = [];
+    each(String(s).split(","), function (p) {
+      var a = p.split(":");
+      var m = parseFloat(a[0]), pc = parseFloat(a[1]);
+      if (!isNaN(m) && !isNaN(pc)) out.push({ min: m, pct: pc });
+    });
+    return out.sort(function (x, y) { return y.min - x.min; });
+  }
+  var ROWS = [], BY = {};
+  function readRows() {
+    ROWS = [];
+    each(document.querySelectorAll("#vdLPrices tr[data-id]"), function (r) {
+      var d = r.dataset, a = r.querySelector("a[href]"), th = r.querySelector("th");
+      var full = d.full || (th ? th.textContent.replace(/\s+/g, " ").trim() : d.name);
+      var kind = d.kind, hex = d.hex || "#8A7A6A";
+      var o = {
+        id: d.id, kind: kind, name: d.name || full, full: full,
+        price: parseFloat(d.price), url: d.url || (a ? a.href : ""),
+        hex: hex, hex2: d.hex2 || lighten(hex, 0.1),
+        len: parseFloat(d.len) || 2900, cover: parseFloat(d.cover) || 132, coverOk: d.coverok === "1",
+        dims: d.dims || "", tiers: parseTiers(d.tiers), kg: d.kg ? parseFloat(d.kg) : NaN,
+        trim: d.trim || "", pu: d.pu || (kind === "board" ? "m2" : "ml"), nosync: d.nosync === "1", row: r
+      };
+      if (!isNaN(o.price) && o.price > 0) { ROWS.push(o); BY[o.id] = o; }
+    });
+  }
+  function rowsWhere(fn) { var o = []; each(ROWS, function (r) { if (fn(r)) o.push(r); }); return o; }
+  function tierPct(item, q) {
+    for (var i = 0; i < item.tiers.length; i++) if (q >= item.tiers[i].min) return item.tiers[i].pct;
+    return 0;
+  }
+
+  /* ---------------- stare ---------------- */
+  var S = { c: "", w: 4000, h: 2500, or: "h", sp: 300, bt: 0, k: 0 };
+  var LIM = { w: [500, 40000], h: [300, 12000], k: [0, 20] };
+  var SP_OPTS = [300, 400];
+
+  function boards() { return rowsWhere(function (r) { return r.kind === "board"; }); }
+  function curBoard() {
+    var list = boards();
+    for (var i = 0; i < list.length; i++) if (list[i].id === S.c) return list[i];
+    S.c = list[0].id; return list[0];
+  }
+
+  /* ---------------- calcul ---------------- */
+  /* debitare: primul-potrivit descrescator, cu 5 mm pierdere la fiecare taietura */
+  function pack(pieces, bar) {
+    var bins = [], list = pieces.slice().sort(function (x, y) { return y - x; });
+    each(list, function (p) {
+      var need = p + KERF;
+      for (var i = 0; i < bins.length; i++) if (bins[i] >= need) { bins[i] -= need; return; }
+      bins.push(bar + KERF - need);
+    });
+    return bins.length;
+  }
+  function split(lines, len, bar) {
+    var out = [];
+    for (var i = 0; i < lines; i++) { var rest = len; while (rest > bar) { out.push(bar); rest -= bar; } out.push(rest); }
+    return out;
+  }
+  function item(r, q) {
+    var pct = tierPct(r, q), gross = q * r.price;
+    return { r: r, q: q, pct: pct, gross: gross, net: gross * (1 - pct / 100) };
+  }
+  /* Grinzile stau perpendicular pe lamele: la lambriu orizontal grinzile sunt
+     verticale (se repeta pe latime), la lambriu vertical sunt orizontale. */
+  function geom() {
+    var vert = S.or === "v";
+    var run = vert ? S.h : S.w, cross = vert ? S.w : S.h;
+    var nB = Math.ceil(run / S.sp) + 1, reg = [];
+    for (var k = 0; k < nB; k++) reg.push(k === nB - 1 ? run : k * S.sp);
+    return { vert: vert, run: run, cross: cross, nB: nB, reg: reg };
+  }
+  function compute() {
+    var board = curBoard(), G = geom(), bat = BY[BAT_ID], trim = BY[board.trim];
+    var area = S.w * S.h / 1e6;
+    var order = Math.max(2, Math.ceil(area * PER_M2 - 1e-9));
+    var useBat = !!(S.bt && bat);
+    var batBars = useBat ? pack(split(G.nB, G.cross, bat.len), bat.len) : 0;
+    var useTrim = !!(S.k > 0 && trim);
+    var trimBars = useTrim ? pack(split(S.k, S.h, trim.len), trim.len) : 0;
+    var rows = Math.ceil((G.vert ? S.w : S.h) / board.cover);
+    var items = [item(board, order)];
+    if (useBat) items.push(item(bat, batBars));
+    if (useTrim) items.push(item(trim, trimBars));
+    var total = 0, grossP = 0;
+    each(items, function (it) { total += it.net; grossP += it.gross; });
+    return {
+      board: board, G: G, area: area, order: order, rows: rows,
+      useBat: useBat, batBars: batBars, batMl: G.nB * G.cross / 1000,
+      useTrim: useTrim, trim: trim, trimBars: trimBars,
+      items: items, total: total, gross: grossP, saved: grossP - total,
+      perM2: area > 0 ? total / area : 0,
+      weight: isNaN(board.kg) ? NaN : order * board.kg
+    };
+  }
+
+  /* ---------------- SVG ---------------- */
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) if (attrs.hasOwnProperty(k)) e.setAttribute(k, attrs[k]);
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function isMobile() { return window.innerWidth <= 900; }
+  var MONO = "'IBM Plex Mono',monospace", TECH = "#5B7183";
+
+  function clearSvg(svg) {
+    each(Array.prototype.slice.call(svg.childNodes), function (n) {
+      var t = n.tagName ? String(n.tagName).toLowerCase() : "";
+      if (t !== "title" && t !== "desc") svg.removeChild(n);
+    });
+  }
+  function dimH(g, x1, x2, y, label, fs, sw) {
+    g.appendChild(el("line", { x1: x1, y1: y, x2: x2, y2: y, stroke: TECH, "stroke-width": sw }));
+    g.appendChild(el("path", { d: "M" + x1 + " " + y + " l" + fs + " -" + fs * 0.44 + " l0 " + fs * 0.88 + " Z", fill: TECH }));
+    g.appendChild(el("path", { d: "M" + x2 + " " + y + " l-" + fs + " -" + fs * 0.44 + " l0 " + fs * 0.88 + " Z", fill: TECH }));
+    g.appendChild(el("text", { x: (x1 + x2) / 2, y: y - fs * 0.55, "font-size": fs, "text-anchor": "middle", fill: TECH, "font-family": MONO, "font-weight": "500" }, label));
+  }
+  function dimV(g, x, y1, y2, label, fs, sw) {
+    g.appendChild(el("line", { x1: x, y1: y1, x2: x, y2: y2, stroke: TECH, "stroke-width": sw }));
+    g.appendChild(el("path", { d: "M" + x + " " + y1 + " l-" + fs * 0.44 + " " + fs + " l" + fs * 0.88 + " 0 Z", fill: TECH }));
+    g.appendChild(el("path", { d: "M" + x + " " + y2 + " l-" + fs * 0.44 + " -" + fs + " l" + fs * 0.88 + " 0 Z", fill: TECH }));
+    var tx = x - fs * 0.75, ty = (y1 + y2) / 2;
+    g.appendChild(el("text", { x: tx, y: ty, "font-size": fs, "text-anchor": "middle", fill: TECH, "font-family": MONO, "font-weight": "500", transform: "rotate(-90 " + tx + " " + ty + ")" }, label));
+  }
+  function ground(g, x1, x2, y, sw) {
+    g.appendChild(el("line", { x1: x1, y1: y, x2: x2, y2: y, stroke: "#B9C6BC", "stroke-width": sw }));
+    var step = Math.max(90, (x2 - x1) / 70);
+    for (var x = x1; x < x2; x += step) {
+      g.appendChild(el("line", { x1: x, y1: y, x2: x - step * 0.5, y2: y + step * 0.5, stroke: "#C9D4CB", "stroke-width": sw * 0.72 }));
+    }
+  }
+  function person(g, x, yGround, fs) {
+    var p = el("g", { transform: "translate(" + x + "," + (yGround - 1750) + ") scale(17.5)", fill: "#AEBCB2", opacity: ".85" });
+    p.appendChild(el("circle", { cx: 15, cy: 9, r: 8.4 }));
+    p.appendChild(el("path", { d: "M15 19 C6 19 3 26 3 38 L3 60 L8 60 L9 100 L14 100 L15 66 L16 100 L21 100 L22 60 L27 60 L27 38 C27 26 24 19 15 19 Z" }));
+    g.appendChild(p);
+    g.appendChild(el("text", { x: x + 262, y: yGround + fs * 1.6, "font-size": fs * 0.72, "text-anchor": "middle", fill: "#8FA097", "font-family": MONO }, "1,75 m"));
+  }
+  function callout(g, x, y, tx, label, fs, sw, color) {
+    g.appendChild(el("line", { x1: x, y1: y, x2: tx, y2: y, stroke: color, "stroke-width": sw * 0.7 }));
+    g.appendChild(el("circle", { cx: x, cy: y, r: sw * 2.6, fill: color }));
+    g.appendChild(el("text", { x: tx + fs * 0.3, y: y + fs * 0.32, "font-size": fs * 0.82, fill: color, "font-family": MONO }, label));
+  }
+  /* ---- textura de lemn: un model (pattern) cat o lamela de 2,9 m, cu fibra
+     ondulata (sinusoide cu perioada care divide lungimea, deci fara cusaturi),
+     desene in arc ("catedrala") si dungi de nuanta. Unitati: mm. ---- */
+  var BL = 2900;
+  function shade(hex, k) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex); if (!m) return hex;
+    var n = parseInt(m[1], 16), out = "#";
+    each([16, 8, 0], function (sh) { var c = Math.round(((n >> sh) & 255) * (1 - k)); out += ("0" + c.toString(16)).slice(-2); });
+    return out;
+  }
+  function rng(seed) { var x = seed % 2147483647; if (x <= 0) x += 2147483646; return function () { x = x * 16807 % 2147483647; return (x - 1) / 2147483646; }; }
+  function woodPattern(defs, id, b, c, seed, deep) {
+    var R = rng(seed), P = el("pattern", { id: id, patternUnits: "userSpaceOnUse", width: BL, height: c });
+    var dark = shade(b.hex, 0.38), light = lighten(b.hex, 0.16), gid = id + "s";
+    var lg = el("linearGradient", { id: gid, x1: "0", y1: "0", x2: "1", y2: "0" });
+    var st = [b.hex, b.hex2, b.hex, shade(b.hex, 0.06), b.hex2, b.hex];
+    each(st, function (col, k) { lg.appendChild(el("stop", { offset: (k / (st.length - 1) * 100).toFixed(1) + "%", "stop-color": col })); });
+    defs.appendChild(lg);
+    P.appendChild(el("rect", { x: 0, y: 0, width: BL, height: c, fill: "url(#" + gid + ")" }));
+    var TAU = Math.PI * 2, n = Math.max(7, Math.round(c / 11)), sw = Math.max(1.6, c * 0.024), op = deep ? 0.72 : 0.58;
+    function grain(y0, amp, col, w, o) {
+      var k1 = 1 + Math.floor(R() * 3), k2 = 3 + Math.floor(R() * 5), p1 = R() * TAU, p2 = R() * TAU, a2 = amp * (0.2 + R() * 0.35), d = "";
+      for (var x = 0; x <= BL; x += 50) {
+        var y = y0 + amp * Math.sin(TAU * k1 * x / BL + p1) + a2 * Math.sin(TAU * k2 * x / BL + p2);
+        d += (x ? " L" : "M") + x + " " + y.toFixed(1);
+      }
+      P.appendChild(el("path", { d: d, fill: "none", stroke: col, "stroke-width": w, opacity: o }));
+    }
+    for (var j = 0; j < n; j++) grain(c * (j + 0.3 + R() * 0.4) / n, c * (0.03 + R() * 0.07), dark, sw * (0.7 + R() * 0.6), op * (0.6 + R() * 0.4));
+    for (j = 0; j < 5; j++) grain(c * R(), c * 0.05, light, sw * 0.7, 0.42);
+    var arches = deep ? 2 : 1 + Math.floor(R() * 2);
+    for (var a = 0; a < arches; a++) {
+      var xc = 450 + R() * (BL - 900), yb = c * (0.55 + R() * 0.4), dir = R() < 0.5 ? 1 : -1;
+      for (var m = 1; m <= 5; m++) {
+        var hw = 70 + m * 85 + R() * 30, hh = c * (0.06 + m * 0.07);
+        P.appendChild(el("path", { d: "M" + (xc - hw - 260) + " " + yb + " L" + (xc - hw) + " " + yb + " Q" + (xc + dir * 40) + " " + (yb - 2 * hh) + " " + (xc + hw) + " " + yb + " L" + (xc + hw + 260) + " " + yb,
+          fill: "none", stroke: dark, "stroke-width": sw * 0.9, opacity: op * 0.9 }));
+      }
+    }
+    defs.appendChild(P);
+  }
+  /* umbra suprapunerii (sus pe lamela), lumina sub ea, apoi fata usor bombata */
+  function shadeGradient(defs, id) {
+    var g = el("linearGradient", { id: id, x1: "0", y1: "0", x2: "0", y2: "1" });
+    each([["0", "#000", ".5"], ["5", "#000", ".14"], ["9", "#fff", ".16"], ["16", "#fff", "0"], ["75", "#000", "0"], ["100", "#000", ".1"]],
+      function (s) { g.appendChild(el("stop", { offset: s[0] + "%", "stop-color": s[1], "stop-opacity": s[2] })); });
+    defs.appendChild(g);
+  }
+  function frame(W, H, mob, padTmin) {
+    var padL = Math.max(mob ? 420 : 520, W * 0.07), padT = Math.max(padTmin, H * 0.06), v, fs;
+    if (mob) { v = W + padL + Math.max(120, W * 0.03); fs = Math.max(v / 22, 46); }
+    else { v = (W + padL + 1145) / 0.805; fs = Math.max(v / 46, 46); }
+    if (fs * 2.9 > padL) {
+      var extra = fs * 2.9 - padL; padL += extra; v += extra;
+      fs = Math.max(v / (mob ? 22 : 46), 46);
+    }
+    var sw = Math.max(v / (mob ? 300 : 520), 3.4);
+    return { padL: padL, padT: padT, v: v, fs: fs, sw: sw, personX: W + 250, textX: W + 1025 };
+  }
+  function draw(res) {
+    var svg = $("vdLDraw");
+    clearSvg(svg);
+    var W = S.w, H = S.h, mob = isMobile(), vert = res.G.vert, cover = res.board.cover;
+    var F = frame(W, H, mob, 160), padL = F.padL, padT = F.padT, v = F.v, fs = F.fs, sw = F.sw, fullW = v - padL - 120;
+    var leg = [];
+    if (res.useBat) leg.push(["b", "grindă de montaj, la " + S.sp + " mm"]);
+    var lf = fs * (mob ? 0.62 : 0.72), lh = lf * 1.8;
+    var hv = H + padT + fs * 4.2 + (leg.length ? leg.length * lh + lf * 0.6 : 0);
+    svg.setAttribute("viewBox", (-padL) + " " + (-padT) + " " + v + " " + hv);
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    var defs = el("defs");
+    var NP = 3, deep = res.board.id.indexOf("l3d") === 0;
+    for (var pi = 0; pi < NP; pi++) woodPattern(defs, "vdLW" + pi, res.board, cover, pi * 7919 + 13, deep);
+    shadeGradient(defs, "vdLShade");
+    svg.appendChild(defs);
+    var g = el("g"); svg.appendChild(g);
+    ground(g, -padL + 40, fullW + 40, H, sw);
+    g.appendChild(el("rect", { x: 0, y: 0, width: W, height: H, fill: "#E4E7E3", stroke: "#B9C6BC", "stroke-width": sw }));
+    /* Lamelele, desenate fiecare in sistemul ei local: x = de-a lungul lamelei,
+       y = pe latime (0 = marginea acoperita de lamela urmatoare, cu umbra).
+       Orizontal: de jos in sus, randul de sus se taie. Vertical: de la stanga.
+       Imbinarile capetelor (bare de 2,9 m) sunt decalate de la un rand la altul. */
+    var runL = vert ? H : W, many = res.rows > 160, i, JR = rng(4241), prev = 0;
+    for (i = 0; i < res.rows; i++) {
+      /* decalaj aleator (dar acelasi la fiecare desen), intre 450 mm si 2,45 m fata de randul anterior */
+      var off = (prev + 450 + Math.floor(JR() * (BL - 900))) % BL;
+      prev = off;
+      var tr, ry = 0, rh = cover;
+      if (vert) {
+        var bx = i * cover; rh = Math.min(cover, W - bx);
+        if (rh <= 0) break;
+        tr = "translate(" + bx + "," + (H + off) + ") rotate(-90)";
+      } else {
+        var yTop = H - (i + 1) * cover;
+        if (yTop < 0) { ry = -yTop; rh = cover - ry; }
+        if (rh <= 0) break;
+        tr = "translate(" + (-off) + "," + yTop + ")";
+      }
+      var pg = el("g", { transform: tr });
+      pg.appendChild(el("rect", { x: off, y: ry, width: runL, height: rh, fill: "url(#vdLW" + (i % NP) + ")" }));
+      pg.appendChild(el("rect", { x: off, y: ry, width: runL, height: rh, fill: "url(#vdLShade)" }));
+      if (!ry) pg.appendChild(el("line", { x1: off, y1: 0, x2: off + runL, y2: 0, stroke: "rgba(0,0,0,.55)", "stroke-width": sw * 0.7 }));
+      if (!many) for (var jx = Math.ceil((off + 1) / BL) * BL; jx < off + runL - 1; jx += BL) {
+        pg.appendChild(el("line", { x1: jx, y1: ry, x2: jx, y2: cover, stroke: "rgba(0,0,0,.5)", "stroke-width": sw * 0.45 }));
+        pg.appendChild(el("line", { x1: jx + sw * 0.5, y1: ry, x2: jx + sw * 0.5, y2: cover, stroke: "rgba(255,255,255,.18)", "stroke-width": sw * 0.3 }));
+      }
+      g.appendChild(pg);
+    }
+    g.appendChild(el("rect", { x: 0, y: 0, width: W, height: H, fill: "none", stroke: "rgba(0,0,0,.30)", "stroke-width": sw * 0.6 }));
+    /* grinzile de montaj: doar cand sunt incluse in calcul */
+    var BC = "#8A98A4";
+    if (res.useBat) {
+      each(res.G.reg, function (pos) {
+        var a = { stroke: BC, "stroke-width": sw * 1.1, "stroke-dasharray": (sw * 4) + " " + (sw * 3), opacity: ".9" };
+        if (vert) { a.x1 = 0; a.x2 = W; a.y1 = a.y2 = H - pos; } else { a.y1 = 0; a.y2 = H; a.x1 = a.x2 = pos; }
+        g.appendChild(el("line", a));
+      });
+    }
+    /* profil L pe colturi: la dreapta pentru primul colt, la stanga pentru al doilea */
+    var tw = Math.max(55, W * 0.012);
+    function trimAt(x) { g.appendChild(el("rect", { x: x, y: 0, width: tw, height: H, fill: res.board.hex, stroke: "rgba(0,0,0,.45)", "stroke-width": sw * 0.6 })); }
+    if (res.useTrim) { trimAt(W - tw); if (S.k > 1) trimAt(0); }
+    var yDim = H + fs * 2.2;
+    g.appendChild(el("line", { x1: 0, y1: H, x2: 0, y2: yDim + fs * 0.6, stroke: TECH, "stroke-width": sw * 0.6, "stroke-dasharray": "14 12" }));
+    g.appendChild(el("line", { x1: W, y1: H, x2: W, y2: yDim + fs * 0.6, stroke: TECH, "stroke-width": sw * 0.6, "stroke-dasharray": "14 12" }));
+    dimH(g, 0, W, yDim, num(W) + " mm", fs, sw);
+    dimV(g, -fs * 1.4, 0, H, num(H) + " mm", fs, sw);
+    if (!mob) {
+      var tx = F.textX;
+      /* etichetele stau sus, deasupra siluetei (1,75 m), ca liniile sa nu o taie */
+      var cy = Math.min(H * 0.1, H - 1750 - fs * 2.4);
+      callout(g, W - (vert ? cover * 0.5 : W * 0.06), Math.max(cy, fs * 0.6), tx, "Lambriu " + res.board.name, fs, sw, "#1E6B45");
+      if (res.useTrim) callout(g, W - tw * 0.5, Math.max(cy, fs * 0.6) + fs * 1.5, tx, "profil L colț", fs, sw, "#1E6B45");
+      person(g, F.personX, H, fs);
+    }
+    var ly0 = yDim + fs * 1.3;
+    each(leg, function (L, n) {
+      var y = ly0 + n * lh, x1 = lf * 3.2;
+      g.appendChild(el("line", { x1: 0, y1: y - lf * 0.2, x2: x1, y2: y - lf * 0.2, stroke: BC, "stroke-width": sw * 1.1, "stroke-dasharray": (sw * 4) + " " + (sw * 3) }));
+      g.appendChild(el("text", { x: x1 + lf * 0.6, y: y + lf * 0.2, "font-size": lf, fill: "#4A5A52", "font-family": MONO }, L[1]));
+    });
+    var desc = svg.querySelector("#vdLDrawDesc");
+    if (desc) desc.textContent = "Fațadă de " + num(W) + " × " + num(H) + " mm placată " + (vert ? "vertical" : "orizontal") +
+      " cu lambriu WPC " + res.board.name + (res.useBat ? ", grinzi de montaj la " + S.sp + " mm" : "") +
+      (res.useTrim ? ", " + S.k + (S.k === 1 ? " colț" : " colțuri") + " cu profil L" : "") + ".";
+  }
+
+  /* ---------------- controale ---------------- */
+  function seg(id, values, label, isOn, pick) {
+    var box = $(id); if (!box) return;
+    box.innerHTML = "";
+    each(values, function (v) {
+      var bt = document.createElement("button");
+      bt.type = "button";
+      bt.innerHTML = label(v);
+      bt.setAttribute("aria-pressed", isOn(v) ? "true" : "false");
+      bt.addEventListener("click", function () { pick(v); dirty(); renderControls(); update(); });
+      box.appendChild(bt);
+    });
+  }
+  function swatches(id, list, cur, pick) {
+    var box = $(id); if (!box) return;
+    box.innerHTML = "";
+    each(list, function (r) {
+      var bt = document.createElement("button");
+      bt.type = "button"; bt.className = "vd-sw";
+      bt.setAttribute("aria-pressed", r.id === cur ? "true" : "false");
+      var bg = "repeating-linear-gradient(180deg,transparent 0 13px,rgba(0,0,0,.22) 13px 15px),linear-gradient(160deg," + r.hex2 + "," + r.hex + " 62%," + r.hex2 + ")";
+      bt.innerHTML = '<span class="vd-swcolor" style="background:' + bg + '"></span>' +
+        '<span class="vd-swname">' + esc(r.name) + '<span class="vd-swprice">' + money(r.price) + " RON/buc</span></span>";
+      bt.addEventListener("click", function () { pick(r); dirty(); renderControls(); update(); });
+      box.appendChild(bt);
+    });
+  }
+  function renderControls() {
+    var board = curBoard();
+    swatches("vdLSwA", boards(), board.id, function (r) { S.c = r.id; });
+    seg("vdLOrient", ["h", "v"], function (o) { return o === "v" ? "Vertical" : "Orizontal"; },
+      function (o) { return S.or === o; }, function (o) { S.or = o; });
+    seg("vdLBat", [0, 1], function (b) { return b ? "Cu grinzi de montaj<small>incluse în calcul</small>" : "Fără grinzi<small>am deja structura</small>"; },
+      function (b) { return S.bt === b; }, function (b) { S.bt = b; });
+    seg("vdLSpace", SP_OPTS, function (s) { return s + " mm" + (s === 300 ? " (recomandat)" : " (maxim)"); },
+      function (s) { return S.sp === s; }, function (s) { S.sp = s; });
+    var sl = $("vdLSpaceLbl");
+    if (sl) sl.textContent = S.bt ? "Distanța dintre grinzile de montaj (pe ax)" : "Distanța dintre elementele structurii existente (pe ax)";
+  }
+  function bindNum(inputId, fieldId, get, set, min, max) {
+    var inp = $(inputId), fld = fieldId ? $(fieldId) : null;
+    if (!inp) return;
+    function apply(final) {
+      var v = parseInt(String(inp.value).replace(/[^\d]/g, ""), 10);
+      if (isNaN(v)) { if (final) v = get(); else return; }
+      var bad = v < min || v > max;
+      if (fld) fld.classList.toggle("is-err", bad && !final);
+      if (final) { v = clamp(v, min, max); inp.value = v; if (fld) fld.classList.remove("is-err"); }
+      set(clamp(v, min, max));
+      dirty(); update();
+    }
+    inp.addEventListener("input", function () { apply(false); });
+    inp.addEventListener("blur", function () { apply(true); });
+    inp.addEventListener("keydown", function (e) { if (e.key === "Enter") inp.blur(); });
+  }
+  function fillInputs() { $("vdLW").value = S.w; $("vdLH").value = S.h; $("vdLK").value = S.k; }
+
+  /* ---------------- rezultat ---------------- */
+  function linesA(r) {
+    var l = [], b = r.board;
+    l.push(["Lambriu", b.name + " · " + b.dims, true]);
+    l.push(["Suprafață fațadă", num(r.area, 2) + " m²", false]);
+    l.push(["Montaj", (r.G.vert ? "vertical" : "orizontal") + (b.coverOk ? " · " + r.rows + (r.G.vert ? " coloane" : " rânduri") + " de " + b.cover + " mm utili" : ""), false]);
+    l.push(["Lamele de 2,9 m de comandat", r.order + " buc · " + num(r.order * 2.9, 1) + " ml (2,7/m²)", true]);
+    if (r.useBat) l.push(["Grinzi de montaj " + num(BY[BAT_ID].len / 1000, 1) + " m", r.batBars + " buc · " + num(r.batMl, 1) + " ml, " + r.G.nB + (r.G.vert ? " rânduri" : " coloane") + " la " + S.sp + " mm", true]);
+    else l.push(["Grinzi de montaj", "nu sunt incluse", false]);
+    if (r.useTrim) l.push(["Profil L pentru colțuri", r.trimBars + " buc · " + S.k + " × " + num(S.h / 1000, 2) + " m", true]);
+    else l.push(["Profil L pentru colțuri", "nu este inclus", false]);
+    if (!isNaN(r.weight)) l.push(["Greutate lamele", num(r.weight) + " kg", false]);
+    l.push(["Preț pe m² placat", money(r.perM2) + " RON", true]);
+    return l;
+  }
+  function itemsHtml(r) {
+    return map(r.items, function (it) {
+      return '<li><a href="' + esc(it.r.url) + '"><span>' + it.q + " × " + esc(it.r.full) + (it.pct ? ' <em>−' + it.pct + "%</em>" : "") +
+        "</span><span>" + money(it.net) + " RON</span></a></li>";
+    }).join("");
+  }
+  function chipsFor(r) {
+    var c = [];
+    c.push(["chip", num(r.area, 2) + " m²"]);
+    c.push(["chip", r.order + " lamele"]);
+    c.push(["chip", r.useBat ? r.batBars + " grinzi" : "fără grinzi"]);
+    if (r.useTrim) c.push(["chip", r.trimBars + " profile L"]);
+    c.push(["chip", r.G.vert ? "vertical" : "orizontal"]);
+    return c;
+  }
+  function waText(r, lines) {
+    var t = ["Bună ziua! Am folosit calculatorul de lambriu WPC de pe site.", "", "CONFIGURAȚIA MEA:"];
+    t.push("• Fațadă: " + num(S.w) + " × " + num(S.h) + " mm");
+    each(lines, function (x) { t.push("• " + x[0] + ": " + x[1]); });
+    t.push(""); t.push("PRODUSE:");
+    each(r.items, function (it) { t.push("• " + it.q + " × " + it.r.full + " = " + money(it.net) + " RON"); });
+    t.push("• TOTAL ESTIMAT: " + money(r.total) + " RON cu TVA");
+    t.push(""); t.push("Link configurație: " + shareUrl());
+    t.push(""); t.push("Vă rog o ofertă completă, cu transport. Mulțumesc!");
+    return t.join("\n");
+  }
+  function update() {
+    var r = compute();
+    draw(r);
+    var lines = linesA(r);
+    $("vdLTotal").textContent = money(r.total);
+    $("vdLSave").innerHTML = r.saved > 0.004 ? '<span class="vd-strike">' + money(r.gross) + ' RON</span> <span class="vd-savings">reducere de cantitate · economisești ' + money(r.saved) + " RON</span>" : "";
+    $("vdLLinesOut").innerHTML = map(lines, function (x) { return "<li" + (x[2] ? ' class="is-em"' : "") + "><span>" + esc(x[0]) + "</span><span>" + esc(x[1]) + "</span></li>"; }).join("");
+    $("vdLItems").innerHTML = itemsHtml(r);
+    $("vdLChips").innerHTML = map(chipsFor(r), function (c) { return '<span class="vd-chip' + (c[0] === "warn" ? " is-warn" : "") + '">' + esc(c[1]) + "</span>"; }).join("");
+    var main = r.items[0];
+    var wa = encodeURIComponent(waText(r, lines));
+    $("vdLCta").innerHTML = '<a class="vd-btn vd-btn-primary" href="' + esc(main.r.url) + '"><span>Comandă ' + main.q + " lamele · " + esc(main.r.name) +
+      "<small>Adaugă cantitatea în coș; accesoriile se comandă din lista de mai sus</small></span><i>" + ARROW + "</i></a>" +
+      '<a class="vd-btn vd-btn-ghost" href="https://wa.me/40747127292?text=' + wa + '"><span>Trimite configurația pe WhatsApp<small>Cu toate cantitățile și linkul de mai sus</small></span><i>' + ARROW + "</i></a>";
+    var dt = $("vdLDockTotal");
+    if (dt) {
+      dt.textContent = money(r.total);
+      $("vdLDockSub").textContent = r.order + " lamele · " + (r.useBat ? r.batBars + " grinzi · " : "") + num(r.area, 1) + " m²";
+      $("vdLDockCta").href = main.r.url;
+    }
+    scheduleUrl();
+  }
+
+  /* ---------------- stare in URL ---------------- */
+  var urlReady = false, urlTimer = null;
+  function dirty() { urlReady = true; }
+  function params(withTest) {
+    var p = new URLSearchParams();
+    if (withTest && /[?&]vdtest=1/.test(location.search)) p.set("vdtest", "1");
+    p.set("c", S.c); p.set("w", S.w); p.set("h", S.h); p.set("o", S.or); p.set("sp", S.sp); p.set("bt", S.bt); p.set("k", S.k);
+    return p;
+  }
+  function scheduleUrl() {
+    if (!urlReady || !window.history || !history.replaceState) return;
+    clearTimeout(urlTimer);
+    urlTimer = setTimeout(function () {
+      var p = params(false), cur = new URLSearchParams(location.search);
+      if (cur.get("vdtest")) p.set("vdtest", cur.get("vdtest"));
+      try { history.replaceState(null, "", location.pathname + "?" + p.toString() + location.hash); } catch (e) {}
+    }, 400);
+  }
+  function shareUrl() { return location.origin + location.pathname + "?" + params(true).toString(); }
+  function readUrl() {
+    var p; try { p = new URLSearchParams(location.search); } catch (e) { return; }
+    function int(k, lo, hi, cb) { var v = parseInt(p.get(k), 10); if (!isNaN(v)) cb(clamp(v, lo, hi)); }
+    var c = p.get("c"); if (c && BY[c] && BY[c].kind === "board") S.c = c;
+    int("w", LIM.w[0], LIM.w[1], function (v) { S.w = v; });
+    int("h", LIM.h[0], LIM.h[1], function (v) { S.h = v; });
+    int("k", LIM.k[0], LIM.k[1], function (v) { S.k = v; });
+    if (p.get("o") === "v" || p.get("o") === "h") S.or = p.get("o");
+    int("sp", 0, 999, function (v) { if (SP_OPTS.indexOf(v) > -1) S.sp = v; });
+    if (p.get("bt") === "0" || p.get("bt") === "1") S.bt = +p.get("bt");
+    if (p.get("w") || p.get("c")) urlReady = true;
+  }
+  function fixCanonical() {
+    var head = document.head; if (!head) return;
+    var clean = location.origin + location.pathname;
+    var c = head.querySelector('link[rel="canonical"]');
+    if (c) { if ((c.getAttribute("href") || "").indexOf("?") > -1) c.setAttribute("href", clean); }
+    else { c = document.createElement("link"); c.setAttribute("rel", "canonical"); c.setAttribute("href", clean); head.appendChild(c); }
+    var og = head.querySelector('meta[property="og:url"]');
+    if (og && (og.getAttribute("content") || "").indexOf("?") > -1) og.setAttribute("content", clean);
+  }
+
+  /* ---------------- sincronizare preturi din categorie ---------------- */
+  function priceIn(txt) {
+    var m = String(txt).match(/(-?)\s*(\d{1,3}(?:\.\d{3})*|\d+)(?:,(\d{1,2}))?\s*(?:RON|lei)/i);
+    if (!m || m[1] === "-") return NaN;
+    return parseFloat(m[2].replace(/\./g, "") + "." + (m[3] || "0"));
+  }
+  function currentPrice(node) {
+    var struck = node.querySelectorAll('del, s, strike, [class*="old"], [class*="Old"]');
+    var all = node.querySelectorAll("*"), found = NaN;
+    for (var i = 0; i < all.length; i++) {
+      var e = all[i]; if (e.children.length) continue;
+      var skip = false;
+      for (var j = 0; j < struck.length; j++) if (struck[j] === e || struck[j].contains(e)) { skip = true; break; }
+      if (skip) continue;
+      var v = priceIn(e.textContent);
+      if (!isNaN(v) && v > 0) found = v;
+    }
+    return found;
+  }
+  function slug(u) {
+    try { u = decodeURIComponent(String(u)); } catch (e) {}
+    u = u.split("?")[0].split("#")[0].replace(/\/+$/, "");
+    return u.substring(u.lastIndexOf("/") + 1).toLowerCase();
+  }
+  function applyPrices(pm) {
+    var changed = 0;
+    each(ROWS, function (r) {
+      /* nosync = produs cu variante de lungime: in categorie poate aparea pretul altei variante */
+      if (r.nosync) return;
+      var v = pm[slug(r.url)];
+      if (v === undefined || isNaN(v) || v <= 0) return;
+      if (Math.abs(v - r.price) / r.price > 0.3) return;
+      if (Math.abs(v - r.price) < 0.005) return;
+      r.price = v; r.row.dataset.price = v;
+      var p = r.row.querySelector(".vd-p"); if (p) p.textContent = money(v) + " RON";
+      var pu = r.row.querySelector(".vd-pu");
+      if (pu && r.pu === "m2") pu.textContent = money(v * PER_M2) + " RON";
+      if (pu && r.pu === "ml") pu.textContent = money(v / (r.len / 1000)) + " RON";
+      changed++;
+    });
+    if (changed) {
+      renderControls(); update();
+      var cap = document.querySelector("#vdLPrices caption");
+      if (cap) cap.textContent = "Prețuri cu TVA · sincronizate automat " + new Date().toLocaleDateString("ro-RO");
+    }
+  }
+  var CACHE_KEY = "vdLPrices_v1";
+  function syncPrices() {
+    if (!CAT_URL || !window.fetch || !window.DOMParser) return;
+    try {
+      var c = JSON.parse(sessionStorage.getItem(CACHE_KEY) || "null");
+      if (c && Date.now() - c.t < 12e5) { applyPrices(c.p); return; }
+    } catch (e) {}
+    var urls = [CAT_URL, CAT_URL + "?p=2"];
+    var late = false, timer = setTimeout(function () { late = true; }, 8000);
+    var merged = {}, pending = urls.length;
+    function done() {
+      if (--pending > 0) return;
+      clearTimeout(timer);
+      if (late) return;
+      try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ t: Date.now(), p: merged })); } catch (e) {}
+      applyPrices(merged);
+    }
+    each(urls, function (u) {
+      fetch(u, { credentials: "omit" }).then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      }).then(function (html) {
+        var links = new DOMParser().parseFromString(html, "text/html").querySelectorAll("a[href]");
+        for (var i = 0; i < links.length; i++) {
+          var s = slug(links[i].getAttribute("href"));
+          if (!s || merged[s] !== undefined) continue;
+          var n = links[i], d = 0;
+          while (n && d < 6) {
+            var v = currentPrice(n);
+            if (!isNaN(v)) { merged[s] = v; break; }
+            n = n.parentElement; d++;
+          }
+        }
+      }).catch(function () {}).then(done);
+    });
+  }
+
+  /* ---------------- PDF ---------------- */
+  var jsPdfP = null;
+  function loadJsPdf() {
+    if (jsPdfP) return jsPdfP;
+    jsPdfP = new Promise(function (ok, bad) {
+      if (window.jspdf && window.jspdf.jsPDF) { ok(window.jspdf.jsPDF); return; }
+      if (!JSPDF_SRC) { bad(new Error("JSPDF_SRC gol")); return; }
+      var s = document.createElement("script");
+      s.src = JSPDF_SRC;
+      s.onload = function () { if (window.jspdf && window.jspdf.jsPDF) ok(window.jspdf.jsPDF); else bad(new Error("jsPDF nu s-a initializat")); };
+      s.onerror = function () { bad(new Error("biblioteca PDF nu s-a incarcat")); };
+      document.head.appendChild(s);
+    });
+    jsPdfP.catch(function () { jsPdfP = null; });
+    return jsPdfP;
+  }
+  var LINK_BOX = { y: 972, h: 58 };
+  function pdfSvg(r) {
+    var F = "Arial, Helvetica, sans-serif", M = "Consolas, 'Courier New', monospace";
+    var ink = "#16211C", soft = "#4A5A52", tech = "#5B7183", line = "#DCE3DD", green = "#1E6B45";
+    var d = new Date(), date = ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." + d.getFullYear();
+    var rows = linesA(r);
+    var o = [];
+    o.push('<svg xmlns="http://www.w3.org/2000/svg" width="794" height="1123" viewBox="0 0 794 1123">');
+    o.push('<rect width="794" height="1123" fill="#FFFFFF"/><rect width="794" height="7" fill="' + green + '"/>');
+    o.push('<text x="52" y="62" font-family="' + F + '" font-size="20" font-weight="700" fill="' + ink + '">VIVODECOR</text>');
+    o.push('<text x="52" y="80" font-family="' + M + '" font-size="9.5" letter-spacing="2" fill="' + tech + '">HOME ' + AMP + 'amp; GARDEN</text>');
+    o.push('<text x="742" y="58" text-anchor="end" font-family="' + F + '" font-size="15" font-weight="700" fill="' + ink + '">' +
+      "Configurație placare lambriu WPC</text>");
+    o.push('<text x="742" y="76" text-anchor="end" font-family="' + M + '" font-size="10" fill="' + tech + '">Estimare generată la ' + date + "</text>");
+    o.push('<line x1="52" y1="95" x2="742" y2="95" stroke="' + line + '"/>');
+    o.push('<rect x="52" y="108" width="690" height="250" fill="#FBFAF7" stroke="' + line + '"/>');
+    var svg = $("vdLDraw");
+    if (svg) {
+      var cl = svg.cloneNode(true);
+      cl.removeAttribute("id"); cl.removeAttribute("style");
+      cl.setAttribute("x", 60); cl.setAttribute("y", 116); cl.setAttribute("width", 674); cl.setAttribute("height", 234);
+      o.push(new XMLSerializer().serializeToString(cl));
+    }
+    var y = 384;
+    o.push('<text x="52" y="' + y + '" font-family="' + M + '" font-size="9.5" letter-spacing="2" fill="' + tech + '">CONFIGURAȚIA</text>');
+    y += 16;
+    each(rows, function (x, i) {
+      var yy = y + i * 19;
+      if (i % 2 === 0) o.push('<rect x="52" y="' + (yy - 13) + '" width="690" height="19" fill="#F6F8F6"/>');
+      o.push('<text x="61" y="' + yy + '" font-family="' + F + '" font-size="11" fill="' + soft + '">' + esc(x[0]) + "</text>");
+      o.push('<text x="733" y="' + yy + '" text-anchor="end" font-family="' + M + '" font-size="11" font-weight="600" fill="' + ink + '">' + esc(x[1]) + "</text>");
+    });
+    y += rows.length * 19 + 14;
+    o.push('<text x="52" y="' + y + '" font-family="' + M + '" font-size="9.5" letter-spacing="2" fill="' + tech + '">PRODUSE</text>');
+    y += 16;
+    each(r.items, function (it, i) {
+      var yy = y + i * 19;
+      var name = it.q + " × " + it.r.full + (it.pct ? "  (−" + it.pct + "%)" : "");
+      if (name.length > 84) name = name.slice(0, 82) + "…";
+      o.push('<text x="61" y="' + yy + '" font-family="' + F + '" font-size="11" fill="' + soft + '">' + esc(name) + "</text>");
+      o.push('<text x="733" y="' + yy + '" text-anchor="end" font-family="' + M + '" font-size="11" font-weight="600" fill="' + ink + '">' + money(it.net) + " RON</text>");
+    });
+    y += r.items.length * 19 + 8;
+    o.push('<rect x="52" y="' + y + '" width="690" height="54" fill="' + ink + '" rx="3"/>');
+    o.push('<text x="68" y="' + (y + 22) + '" font-family="' + M + '" font-size="9.5" letter-spacing="1.6" fill="#8FA79A">TOTAL ESTIMAT MATERIALE</text>');
+    o.push('<text x="68" y="' + (y + 44) + '" font-family="' + M + '" font-size="21" font-weight="700" fill="#FFFFFF">' + money(r.total) + " RON</text>");
+    o.push('<text x="726" y="' + (y + 44) + '" text-anchor="end" font-family="' + M + '" font-size="11" fill="#8FA79A">TVA inclus</text>');
+    y += 66;
+    o.push('<rect x="52" y="' + y + '" width="690" height="42" fill="#E9F2EC" rx="3"/>');
+    o.push('<text x="64" y="' + (y + 18) + '" font-family="' + F + '" font-size="10.5" fill="' + green + '">' +
+      (r.useBat ? "Grinzi la aproximativ 300 mm, maximum 400 mm, perpendicular pe lamele. Montajul începe de jos în sus." :
+        "Grinzile de montaj nu sunt incluse: lamelele se prind pe structura existentă, la maximum 400 mm.") + "</text>");
+    o.push('<text x="64" y="' + (y + 33) + '" font-family="' + F + '" font-size="10.5" fill="' + green + '">Transportul se ofertează separat. Prețurile din pagina fiecărui produs sunt cele oficiale.</text>');
+    LINK_BOX.y = Math.max(y + 56, 900);
+    var ly = LINK_BOX.y;
+    o.push('<rect x="52" y="' + ly + '" width="690" height="' + LINK_BOX.h + '" fill="' + green + '" rx="3"/>');
+    o.push('<text x="68" y="' + (ly + 21) + '" font-family="' + F + '" font-size="12.5" font-weight="700" fill="#FFFFFF">' + ARROW + "  Apasă aici ca să redeschizi și să modifici această configurație</text>");
+    o.push('<text x="68" y="' + (ly + 38) + '" font-family="' + F + '" font-size="10" fill="#BFE0CC">Se deschide calculatorul cu toate valorile completate. Îl poți trimite mai departe montatorului.</text>');
+    var su = shareUrl().replace(/^https?:\/\//, "");
+    if (su.length > 100) su = su.slice(0, 97) + "...";
+    o.push('<text x="68" y="' + (ly + 52) + '" font-family="' + M + '" font-size="8.5" fill="#8FC7A5">' + esc(su) + "</text>");
+    o.push('<line x1="52" y1="1045" x2="742" y2="1045" stroke="' + line + '"/>');
+    o.push('<text x="52" y="1062" font-family="' + F + '" font-size="10.5" font-weight="700" fill="' + ink + '">VIVODECOR · SC FIERONART SRL · CUI RO 17572384</text>');
+    o.push('<text x="52" y="1077" font-family="' + F + '" font-size="10" fill="' + soft + '">Showroom Cluj-Napoca, Str. Fabricii de Zahăr 109, L–V 8:30–16:30  ·  Depozit-showroom Rudeni, Chiajna, Ilfov</text>');
+    o.push('<text x="52" y="1092" font-family="' + M + '" font-size="10.5" fill="' + ink + '">0747 127 292  ·  0724 604 236  ·  vivodecor.ro</text>');
+    o.push('<text x="52" y="1108" font-family="' + F + '" font-size="9" fill="' + tech + '">Estimarea nu constituie ofertă fermă. Prețurile afișate în pagina fiecărui produs sunt cele oficiale.</text>');
+    o.push("</svg>");
+    return o.join("");
+  }
+  function svgToJpeg(svgText) {
+    return new Promise(function (ok, bad) {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var c = document.createElement("canvas"); c.width = 1588; c.height = 2246;
+          var x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height);
+          x.drawImage(img, 0, 0, c.width, c.height);
+          ok(c.toDataURL("image/jpeg", 0.92));
+        } catch (e) { bad(e); }
+      };
+      img.onerror = function () { bad(new Error("desenul nu a putut fi randat")); };
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgText);
+    });
+  }
+  function bindPdf() {
+    var btn = $("vdLPdfBtn"), sub = $("vdLPdfSub"); if (!btn) return;
+    var orig = sub.textContent;
+    btn.addEventListener("click", function () {
+      btn.disabled = true; sub.textContent = "Se pregătește documentul…";
+      var r = compute();
+      loadJsPdf().then(function (JsPDF) {
+        return svgToJpeg(pdfSvg(r)).then(function (jpg) {
+          var doc = new JsPDF({ orientation: "p", unit: "px", format: [794, 1123], hotfixes: ["px_scaling"] });
+          doc.addImage(jpg, "JPEG", 0, 0, 794, 1123);
+          doc.link(52, LINK_BOX.y, 690, LINK_BOX.h, { url: shareUrl() });
+          doc.link(52, 1082, 260, 14, { url: "tel:+40747127292" });
+          var nm = r.board.name + "-" + S.w + "x" + S.h;
+          doc.save("Configuratie-lambriu-WPC-" + nm.replace(/[^A-Za-z0-9]+/g, "-") + ".pdf");
+        });
+      }).then(function () {
+        sub.textContent = "Descărcat. Poți genera altul după ce modifici configurația.";
+        var lead = $("vdLLead"); if (lead && LEAD_URL) lead.hidden = false;
+      }).catch(function (e) {
+        sub.textContent = "Nu s-a putut genera PDF-ul. Trimite configurația pe WhatsApp.";
+        if (window.console) console.warn("[VIVODECOR lambriu PDF]", e);
+      }).then(function () {
+        btn.disabled = false;
+        setTimeout(function () { if (sub.textContent.indexOf("Descărcat") === 0) sub.textContent = orig; }, 9000);
+      });
+    });
+  }
+
+  /* ---------------- cerere de oferta ---------------- */
+  function bindLead() {
+    var box = $("vdLLead"); if (!box) return;
+    var mail = $("vdLLeadMail"), tel = $("vdLLeadPhone"), ok = $("vdLLeadOk"), send = $("vdLLeadSend"), msg = $("vdLLeadMsg");
+    function say(t, err) { msg.textContent = t; msg.hidden = false; msg.classList.toggle("is-err", !!err); }
+    send.addEventListener("click", function () {
+      var em = (mail.value || "").trim();
+      if (!(em.length <= 120 && /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,24}$/.test(em))) { say("Adresa de email nu pare validă.", true); mail.focus(); return; }
+      var ph = (tel.value || "").trim(), digits = ph.replace(/\D/g, "");
+      if (!(ph.length <= 30 && /^[\d\s.()+\-]+$/.test(ph) && digits.length >= 9 && digits.length <= 15)) { say("Numărul de telefon nu pare valid. Exemplu: 0722 123 456", true); tel.focus(); return; }
+      if (!ok.checked) { say("Bifează acordul ca să putem trimite oferta.", true); return; }
+      send.disabled = true; say("Se trimite…");
+      var r = compute();
+      var cfg = map(r.items, function (it) { return it.q + " x " + it.r.full; }).join("; ");
+      /* Campurile urmeaza coloanele din Sheet ale gardului (ca la riflaj):
+         panouri = lamele, deschidere / inaltime = latimea / inaltimea fatadei. */
+      var body = {
+        token: LEAD_TOKEN, website: $("vdLLeadWeb").value, email: em, telefon: ph, url: shareUrl(),
+        culoare: "[LAMBRIU] " + r.board.full,
+        pretMl: r.items[0].r.price,
+        panouri: r.order,
+        deschidere_mm: S.w,
+        inaltime_dorita_mm: S.h,
+        inaltime_reala_mm: S.h,
+        randuri: r.rows,
+        distanta_sipci_mm: 0,
+        distantiere_capat_buc: 0,
+        lungime_gard_m: +(S.w / 1000).toFixed(2),
+        suprafata_mp: +r.area.toFixed(2),
+        necesar_ml: +(r.order * 2.9).toFixed(2),
+        total_ron: +r.total.toFixed(2),
+        cere_cadre: false, cere_stalpi: false,
+        calculator: "lambriu", configuratie: cfg + (r.useBat ? "" : "; fara grinzi (structura existenta)") + (S.or === "v" ? "; montaj vertical" : "; montaj orizontal"),
+        data: new Date().toISOString()
+      };
+      fetch(LEAD_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
+        .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return res.text(); })
+        .then(function (t) { var good = false; try { good = JSON.parse(t).ok === true; } catch (e) {} if (!good) throw new Error("respins de server"); })
+        .then(function () {
+          box.innerHTML = '<p class="vd-lead-t">Mulțumim! Am primit cererea.</p><p class="vd-lead-s">Un coleg verifică configurația și îți trimite oferta completă pe ' + esc(em) + " sau te sună la " + esc(ph) + ". Dacă e urgent, sună tu la 0747 127 292.</p>";
+        }).catch(function (e) {
+          send.disabled = false; say("Nu s-a putut trimite. Încearcă pe WhatsApp sau la 0747 127 292.", true);
+          if (window.console) console.warn("[VIVODECOR lambriu lead]", e);
+        });
+    });
+    mail.addEventListener("keydown", function (e) { if (e.key === "Enter") send.click(); });
+  }
+
+  /* ---------------- antet tema + bara mobila ---------------- */
+  var headMin = Infinity, headMax = 0, measured = false;
+  function fixedTop(e, vw) {
+    var cs; try { cs = getComputedStyle(e); } catch (x) { return null; }
+    if (cs.position !== "fixed" && cs.position !== "sticky") return null;
+    if (cs.display === "none" || cs.visibility === "hidden" || parseFloat(cs.opacity) === 0) return null;
+    var r = e.getBoundingClientRect();
+    if (r.height < 45 || r.height > 400 || r.top > 12 || r.width < vw * 0.6) return null;
+    return r;
+  }
+  function measureHead() {
+    var vw = window.innerWidth, bottom = 0, all = document.body.getElementsByTagName("*");
+    for (var i = 0; i < all.length; i++) {
+      var e = all[i];
+      if (e.id === "vdL" || (e.closest && e.closest("#vdL"))) continue;
+      var r = fixedTop(e, vw); if (r && r.bottom > bottom) bottom = r.bottom;
+    }
+    var ch = false;
+    if (bottom > 0 && bottom < headMin) { headMin = bottom; ch = true; }
+    if (bottom > headMax) { headMax = bottom; ch = true; }
+    if (!ch && measured) return;
+    var ok = headMin !== Infinity && headMax > 0;
+    var room = ok ? Math.max(70, headMin) : 16;
+    var cover = ok ? Math.min(170, Math.max(0, Math.round(headMax - room))) : 0;
+    var st = document.documentElement.style;
+    st.setProperty("--vd-headroom", Math.round(room + TOP_ADJ) + "px");
+    st.setProperty("--vd-cover", cover + "px");
+    measured = true;
+  }
+  function measureDock() {
+    var vw = window.innerWidth, vh = window.innerHeight, l = 0, r = 0, all = document.body.getElementsByTagName("*");
+    for (var i = 0; i < all.length; i++) {
+      var e = all[i];
+      if (e.id === "vdLDock" || e.id === "vdL") continue;
+      if (e.closest && (e.closest("#vdLDock") || e.closest("#vdL"))) continue;
+      var cs; try { cs = getComputedStyle(e); } catch (x) { continue; }
+      if (cs.position !== "fixed" || cs.display === "none" || cs.visibility === "hidden" || parseFloat(cs.opacity) === 0) continue;
+      var b = e.getBoundingClientRect();
+      if (b.width < 24 || b.width > 140 || b.height < 24 || b.height > 140) continue;
+      if (b.bottom < vh - 190 || b.top > vh - 10) continue;
+      if (b.left < vw * 0.42) { if (b.right > l) l = b.right; }
+      else if (b.right > vw * 0.58) { if (vw - b.left > r) r = vw - b.left; }
+    }
+    var st = document.documentElement.style;
+    st.setProperty("--vd-dock-l", Math.max(16, Math.round(l)) + "px");
+    st.setProperty("--vd-dock-r", Math.max(16, Math.round(r)) + "px");
+  }
+  function layoutWatchers() {
+    var dock = $("vdLDock"), res = $("vdLResult");
+    if (dock && res && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) { dock.classList.toggle("is-off", en[0].isIntersecting); }, { threshold: 0.18 }).observe(res);
+    }
+    var mob = isMobile(), rt;
+    window.addEventListener("resize", function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { headMax = 0; measureHead(); measureDock(); if (isMobile() !== mob) { mob = isMobile(); update(); } }, 200);
+    });
+    window.addEventListener("orientationchange", function () { setTimeout(update, 220); });
+    var raf = 0;
+    window.addEventListener("scroll", function () {
+      if (raf) return;
+      raf = requestAnimationFrame(function () { raf = 0; measureHead(); measureDock(); });
+    }, { passive: true });
+    measureHead(); measureDock();
+    each([400, 900, 1800], function (t) { setTimeout(function () { measureHead(); measureDock(); }, t); });
+  }
+
+  function injectLd() {
+    if ($("vdLLdJson")) return;
+    var s = document.createElement("script");
+    s.type = "application/ld+json"; s.id = "vdLLdJson";
+    s.textContent = JSON.stringify(LDJSON);
+    (document.head || document.body).appendChild(s);
+  }
+
+  /* ---------------- pornire ---------------- */
+  function start() {
+    var root = $("vdL");
+    if (!root || root.getAttribute("data-ready")) return;
+    readRows();
+    if (!boards().length) return;
+    root.setAttribute("data-ready", "1");
+    injectLd();
+    fixCanonical();
+    readUrl();
+    curBoard();
+    fillInputs();
+    bindNum("vdLW", "vdLFieldW", function () { return S.w; }, function (v) { S.w = v; }, LIM.w[0], LIM.w[1]);
+    bindNum("vdLH", "vdLFieldH", function () { return S.h; }, function (v) { S.h = v; }, LIM.h[0], LIM.h[1]);
+    bindNum("vdLK", "vdLFieldK", function () { return S.k; }, function (v) { S.k = v; }, LIM.k[0], LIM.k[1]);
+    renderControls();
+    update();
+    bindPdf();
+    bindLead();
+    layoutWatchers();
+    root.classList.add("is-ready");
+    syncPrices();
+  }
+  var tries = 0;
+  function wait() {
+    if ($("vdL") && $("vdLPrices") && $("vdLDraw")) { try { start(); } catch (e) { if (window.console) console.warn("[VIVODECOR lambriu] eroare:", e); } return; }
+    if (++tries > 80) return;
+    setTimeout(wait, 150);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wait); else wait();
+})();
