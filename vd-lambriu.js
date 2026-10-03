@@ -18,7 +18,7 @@
   var JSPDF_SRC = CFG.JSPDF_SRC || "";
   var TOP_ADJ = parseFloat(CFG.TOP_ADJUST) || 0;
   var CAT_URL = LC.CATEGORY_URL || "";
-  var LDJSON = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.vivodecor.ro/calculator-lambriu-wpc#app", "name": "Calculator lambriu WPC fa\u021bad\u0103 \u2014 lamele, grinzi de montaj, profile L \u0219i pre\u021b", "url": "https://www.vivodecor.ro/calculator-lambriu-wpc", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "ro-RO", "description": "Calculeaz\u0103 c\u00e2te lamele de lambriu WPC de 2,9 m (2,7 pe m\u00b2), c\u00e2te grinzi de montaj \u0219i c\u00e2te profile L de col\u021b sunt necesare pentru placarea unei fa\u021bade, cu pre\u021buri cu TVA.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "RON"}, "publisher": {"@type": "Organization", "name": "VIVODECOR", "url": "https://www.vivodecor.ro"}}, {"@type": "FAQPage", "inLanguage": "ro-RO", "mainEntity": [{"@type": "Question", "name": "C\u00e2te lamele de lambriu WPC intr\u0103 pe un metru p\u0103trat?", "acceptedAnswer": {"@type": "Answer", "text": "2,7 lamele de 2,9 m pe m\u00b2, adic\u0103 8 metri liniari. Lamela de 150 \u00d7 20 mm acoper\u0103 132 mm dup\u0103 \u00eembinare, deci un m\u00b2 cere 7,6 ml; regula de 8 ml las\u0103 o mic\u0103 rezerv\u0103 pentru t\u0103ieturi. Pentru 10 m\u00b2 sunt necesare 27 de lamele, pentru 20 m\u00b2 54, pentru 30 m\u00b2 81."}}, {"@type": "Question", "name": "C\u00e2t cost\u0103 lambriul WPC pe m\u00b2 cu tot cu grinzile?", "acceptedAnswer": {"@type": "Answer", "text": "La pre\u021burile din 3 octombrie 2026, lamelele cost\u0103 188,95 RON/m\u00b2 cu TVA. O fa\u021bad\u0103 de 4 \u00d7 2,5 m (10 m\u00b2) cu 27 de lamele \u0219i 15 grinzi de montaj cost\u0103 2.604,96 RON, adic\u0103 260,50 RON/m\u00b2. Profilele L pentru col\u021buri \u0219i transportul se adaug\u0103 separat."}}, {"@type": "Question", "name": "La ce distan\u021b\u0103 se monteaz\u0103 grinzile pentru lambriu WPC?", "acceptedAnswer": {"@type": "Answer", "text": "La aproximativ 300 mm una de alta, f\u0103r\u0103 a dep\u0103\u0219i 400 mm, perpendicular pe lamele: verticale pentru lambriu orizontal, orizontale pentru lambriu vertical. La 300 mm consumul e de aproximativ 3,5 metri liniari de grind\u0103 40 \u00d7 30 mm pe m\u00b2 de fa\u021bad\u0103."}}, {"@type": "Question", "name": "Montez lambriul WPC orizontal sau vertical?", "acceptedAnswer": {"@type": "Answer", "text": "Ambele variante folosesc aceea\u0219i cantitate de lamele, 2,7 pe m\u00b2. Orizontal e montajul clasic de fa\u021bad\u0103 \u0219i l\u0103rge\u0219te vizual peretele; vertical \u00eel \u00eenal\u021b\u0103. Montajul \u00eencepe de jos \u00een sus, iar fiecare lamel\u0103 se a\u0219az\u0103 peste cea deja fixat\u0103."}}, {"@type": "Question", "name": "Pot monta lambriul WPC pe un perete izolat cu polistiren?", "acceptedAnswer": {"@type": "Answer", "text": "Da. Grinzile de montaj se ancoreaz\u0103 prin stratul de polistiren direct \u00een zid\u0103rie, apoi lamelele se prind de grinzi. Lambriul nu se lipe\u0219te cu silicon sau adeziv pe nicio suprafa\u021b\u0103: montajul se face doar mecanic, pe grinzi, la cel mult 400 mm \u00eentre ele."}}, {"@type": "Question", "name": "De c\u00e2te profile L am nevoie pentru col\u021buri?", "acceptedAnswer": {"@type": "Answer", "text": "De c\u00e2te un profil L pe fiecare col\u021b exterior, pe toat\u0103 \u00een\u0103l\u021bimea peretelui. Profilul are 2,9 m: pentru un perete de p\u00e2n\u0103 la 2,9 m \u00een\u0103l\u021bime intr\u0103 un profil pe col\u021b. Gri, Maro \u0219i Bej au profil L 55 \u00d7 45 mm \u00een aceea\u0219i culoare; Aramiu 3D are profil L 50 \u00d7 50 mm Aramiu."}}, {"@type": "Question", "name": "Pre\u021bul din calculator include TVA \u0219i accesoriile?", "acceptedAnswer": {"@type": "Answer", "text": "Da, toate pre\u021burile sunt cu TVA. Totalul include lamelele \u0219i, dac\u0103 le alegi, grinzile de montaj \u0219i profilele L. Transportul nu este inclus. Pre\u021bul din pagina fiec\u0103rui produs r\u0103m\u00e2ne cel oficial."}}, {"@type": "Question", "name": "Pot vedea lambriul WPC \u00eenainte de a comanda?", "acceptedAnswer": {"@type": "Answer", "text": "Da. Po\u021bi comanda mostre de lambriu de pe site sau po\u021bi vedea lamelele \u00een showroomul VIVODECOR din Cluj-Napoca ori la punctul de lucru din Bucure\u0219ti. Mostrele sunt recomandate pentru culoare: pe ecran nuan\u021ba poate ar\u0103ta diferit."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Acas\u0103", "item": "https://www.vivodecor.ro/"}, {"@type": "ListItem", "position": 2, "name": "Lambriu WPC", "item": "https://www.vivodecor.ro/lambriu-wpc"}, {"@type": "ListItem", "position": 3, "name": "Calculator lambriu WPC", "item": "https://www.vivodecor.ro/calculator-lambriu-wpc"}]}]};
+  var LDJSON = {"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "@id": "https://www.vivodecor.ro/calculator-lambriu-wpc#app", "name": "Calculator lambriu WPC fa\u021bad\u0103 \u2014 lamele, grinzi de montaj \u0219i pre\u021b", "url": "https://www.vivodecor.ro/calculator-lambriu-wpc", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "ro-RO", "description": "Calculeaz\u0103 c\u00e2te lamele de lambriu WPC de 2,9 m (2,7 pe m\u00b2), \u0219i c\u00e2te grinzi de montaj sunt necesare pentru placarea unei fa\u021bade, cu pre\u021buri cu TVA.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "RON"}, "publisher": {"@type": "Organization", "name": "VIVODECOR", "url": "https://www.vivodecor.ro"}}, {"@type": "FAQPage", "inLanguage": "ro-RO", "mainEntity": [{"@type": "Question", "name": "C\u00e2te lamele de lambriu WPC intr\u0103 pe un metru p\u0103trat?", "acceptedAnswer": {"@type": "Answer", "text": "2,7 lamele de 2,9 m pe m\u00b2, adic\u0103 8 metri liniari. Lamela de 150 \u00d7 20 mm acoper\u0103 132 mm dup\u0103 \u00eembinare, deci un m\u00b2 cere 7,6 ml; regula de 8 ml las\u0103 o mic\u0103 rezerv\u0103 pentru t\u0103ieturi. Pentru 10 m\u00b2 sunt necesare 27 de lamele, pentru 20 m\u00b2 54, pentru 30 m\u00b2 81."}}, {"@type": "Question", "name": "C\u00e2t cost\u0103 lambriul WPC pe m\u00b2 cu tot cu grinzile?", "acceptedAnswer": {"@type": "Answer", "text": "La pre\u021burile din 3 octombrie 2026, lamelele cost\u0103 188,95 RON/m\u00b2 cu TVA. O fa\u021bad\u0103 de 4 \u00d7 2,5 m (10 m\u00b2) cu 27 de lamele \u0219i 15 grinzi de montaj cost\u0103 2.604,96 RON, adic\u0103 260,50 RON/m\u00b2. Transportul se adaug\u0103 separat."}}, {"@type": "Question", "name": "La ce distan\u021b\u0103 se monteaz\u0103 grinzile pentru lambriu WPC?", "acceptedAnswer": {"@type": "Answer", "text": "La aproximativ 300 mm una de alta, f\u0103r\u0103 a dep\u0103\u0219i 400 mm, perpendicular pe lamele: verticale pentru lambriu orizontal, orizontale pentru lambriu vertical. La 300 mm consumul e de aproximativ 3,5 metri liniari de grind\u0103 40 \u00d7 30 mm pe m\u00b2 de fa\u021bad\u0103."}}, {"@type": "Question", "name": "Montez lambriul WPC orizontal sau vertical?", "acceptedAnswer": {"@type": "Answer", "text": "Ambele variante folosesc aceea\u0219i cantitate de lamele, 2,7 pe m\u00b2. Orizontal e montajul clasic de fa\u021bad\u0103 \u0219i l\u0103rge\u0219te vizual peretele; vertical \u00eel \u00eenal\u021b\u0103. Montajul \u00eencepe de jos \u00een sus, iar fiecare lamel\u0103 se a\u0219az\u0103 peste cea deja fixat\u0103."}}, {"@type": "Question", "name": "Pot monta lambriul WPC pe un perete izolat cu polistiren?", "acceptedAnswer": {"@type": "Answer", "text": "Da. Grinzile de montaj se ancoreaz\u0103 prin stratul de polistiren direct \u00een zid\u0103rie, apoi lamelele se prind de grinzi. Lambriul nu se lipe\u0219te cu silicon sau adeziv pe nicio suprafa\u021b\u0103: montajul se face doar mecanic, pe grinzi, la cel mult 400 mm \u00eentre ele."}}, {"@type": "Question", "name": "Pre\u021bul din calculator include TVA \u0219i accesoriile?", "acceptedAnswer": {"@type": "Answer", "text": "Da, toate pre\u021burile sunt cu TVA. Totalul include lamelele \u0219i, dac\u0103 le alegi, grinzile de montaj. Col\u021barele, profilele de \u00eenchidere \u0219i transportul nu sunt incluse. Pre\u021bul din pagina fiec\u0103rui produs r\u0103m\u00e2ne cel oficial."}}, {"@type": "Question", "name": "Pot vedea lambriul WPC \u00eenainte de a comanda?", "acceptedAnswer": {"@type": "Answer", "text": "Da. Po\u021bi comanda mostre de lambriu de pe site sau po\u021bi vedea lamelele \u00een showroomul VIVODECOR din Cluj-Napoca ori la punctul de lucru din Bucure\u0219ti. Mostrele sunt recomandate pentru culoare: pe ecran nuan\u021ba poate ar\u0103ta diferit."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Acas\u0103", "item": "https://www.vivodecor.ro/"}, {"@type": "ListItem", "position": 2, "name": "Lambriu WPC", "item": "https://www.vivodecor.ro/lambriu-wpc"}, {"@type": "ListItem", "position": 3, "name": "Calculator lambriu WPC", "item": "https://www.vivodecor.ro/calculator-lambriu-wpc"}]}]};
 
   var KERF = 5, BAT_ID = "grinda";
   /* Consum: 2,7 lamele de 2,9 m pe m2 (8 ml/m2), ca in descrierea produsului:
@@ -71,7 +71,7 @@
         hex: hex, hex2: d.hex2 || lighten(hex, 0.1),
         len: parseFloat(d.len) || 2900, cover: parseFloat(d.cover) || 132, coverOk: d.coverok === "1",
         dims: d.dims || "", tiers: parseTiers(d.tiers), kg: d.kg ? parseFloat(d.kg) : NaN,
-        trim: d.trim || "", pu: d.pu || (kind === "board" ? "m2" : "ml"), nosync: d.nosync === "1", row: r
+        pu: d.pu || (kind === "board" ? "m2" : "ml"), nosync: d.nosync === "1", row: r
       };
       if (!isNaN(o.price) && o.price > 0) { ROWS.push(o); BY[o.id] = o; }
     });
@@ -83,8 +83,8 @@
   }
 
   /* ---------------- stare ---------------- */
-  var S = { c: "", w: 4000, h: 2500, or: "h", sp: 300, bt: 0, k: 0 };
-  var LIM = { w: [500, 40000], h: [300, 12000], k: [0, 20] };
+  var S = { c: "", w: 4000, h: 2500, or: "h", sp: 300, bt: 0 };
+  var LIM = { w: [500, 40000], h: [300, 12000] };
   var SP_OPTS = [300, 400];
 
   function boards() { return rowsWhere(function (r) { return r.kind === "board"; }); }
@@ -124,23 +124,19 @@
     return { vert: vert, run: run, cross: cross, nB: nB, reg: reg };
   }
   function compute() {
-    var board = curBoard(), G = geom(), bat = BY[BAT_ID], trim = BY[board.trim];
+    var board = curBoard(), G = geom(), bat = BY[BAT_ID];
     var area = S.w * S.h / 1e6;
     var order = Math.max(2, Math.ceil(area * PER_M2 - 1e-9));
     var useBat = !!(S.bt && bat);
     var batBars = useBat ? pack(split(G.nB, G.cross, bat.len), bat.len) : 0;
-    var useTrim = !!(S.k > 0 && trim);
-    var trimBars = useTrim ? pack(split(S.k, S.h, trim.len), trim.len) : 0;
     var rows = Math.ceil((G.vert ? S.w : S.h) / board.cover);
     var items = [item(board, order)];
     if (useBat) items.push(item(bat, batBars));
-    if (useTrim) items.push(item(trim, trimBars));
     var total = 0, grossP = 0;
     each(items, function (it) { total += it.net; grossP += it.gross; });
     return {
       board: board, G: G, area: area, order: order, rows: rows,
       useBat: useBat, batBars: batBars, batMl: G.nB * G.cross / 1000,
-      useTrim: useTrim, trim: trim, trimBars: trimBars,
       items: items, total: total, gross: grossP, saved: grossP - total,
       perM2: area > 0 ? total / area : 0,
       weight: isNaN(board.kg) ? NaN : order * board.kg
@@ -314,10 +310,6 @@
         g.appendChild(el("line", a));
       });
     }
-    /* profil L pe colturi: la dreapta pentru primul colt, la stanga pentru al doilea */
-    var tw = Math.max(55, W * 0.012);
-    function trimAt(x) { g.appendChild(el("rect", { x: x, y: 0, width: tw, height: H, fill: res.board.hex, stroke: "rgba(0,0,0,.45)", "stroke-width": sw * 0.6 })); }
-    if (res.useTrim) { trimAt(W - tw); if (S.k > 1) trimAt(0); }
     var yDim = H + fs * 2.2;
     g.appendChild(el("line", { x1: 0, y1: H, x2: 0, y2: yDim + fs * 0.6, stroke: TECH, "stroke-width": sw * 0.6, "stroke-dasharray": "14 12" }));
     g.appendChild(el("line", { x1: W, y1: H, x2: W, y2: yDim + fs * 0.6, stroke: TECH, "stroke-width": sw * 0.6, "stroke-dasharray": "14 12" }));
@@ -328,7 +320,6 @@
       /* etichetele stau sus, deasupra siluetei (1,75 m), ca liniile sa nu o taie */
       var cy = Math.min(H * 0.1, H - 1750 - fs * 2.4);
       callout(g, W - (vert ? cover * 0.5 : W * 0.06), Math.max(cy, fs * 0.6), tx, "Lambriu " + res.board.name, fs, sw, "#1E6B45");
-      if (res.useTrim) callout(g, W - tw * 0.5, Math.max(cy, fs * 0.6) + fs * 1.5, tx, "profil L colț", fs, sw, "#1E6B45");
       person(g, F.personX, H, fs);
     }
     var ly0 = yDim + fs * 1.3;
@@ -340,7 +331,7 @@
     var desc = svg.querySelector("#vdLDrawDesc");
     if (desc) desc.textContent = "Fațadă de " + num(W) + " × " + num(H) + " mm placată " + (vert ? "vertical" : "orizontal") +
       " cu lambriu WPC " + res.board.name + (res.useBat ? ", grinzi de montaj la " + S.sp + " mm" : "") +
-      (res.useTrim ? ", " + S.k + (S.k === 1 ? " colț" : " colțuri") + " cu profil L" : "") + ".";
+ ".";
   }
 
   /* ---------------- controale ---------------- */
@@ -398,7 +389,7 @@
     inp.addEventListener("blur", function () { apply(true); });
     inp.addEventListener("keydown", function (e) { if (e.key === "Enter") inp.blur(); });
   }
-  function fillInputs() { $("vdLW").value = S.w; $("vdLH").value = S.h; $("vdLK").value = S.k; }
+  function fillInputs() { $("vdLW").value = S.w; $("vdLH").value = S.h; }
 
   /* ---------------- rezultat ---------------- */
   function linesA(r) {
@@ -409,8 +400,6 @@
     l.push(["Lamele de 2,9 m de comandat", r.order + " buc · " + num(r.order * 2.9, 1) + " ml (2,7/m²)", true]);
     if (r.useBat) l.push(["Grinzi de montaj " + num(BY[BAT_ID].len / 1000, 1) + " m", r.batBars + " buc · " + num(r.batMl, 1) + " ml, " + r.G.nB + (r.G.vert ? " rânduri" : " coloane") + " la " + S.sp + " mm", true]);
     else l.push(["Grinzi de montaj", "nu sunt incluse", false]);
-    if (r.useTrim) l.push(["Profil L pentru colțuri", r.trimBars + " buc · " + S.k + " × " + num(S.h / 1000, 2) + " m", true]);
-    else l.push(["Profil L pentru colțuri", "nu este inclus", false]);
     if (!isNaN(r.weight)) l.push(["Greutate lamele", num(r.weight) + " kg", false]);
     l.push(["Preț pe m² placat", money(r.perM2) + " RON", true]);
     return l;
@@ -426,7 +415,6 @@
     c.push(["chip", num(r.area, 2) + " m²"]);
     c.push(["chip", r.order + " lamele"]);
     c.push(["chip", r.useBat ? r.batBars + " grinzi" : "fără grinzi"]);
-    if (r.useTrim) c.push(["chip", r.trimBars + " profile L"]);
     c.push(["chip", r.G.vert ? "vertical" : "orizontal"]);
     return c;
   }
@@ -438,7 +426,7 @@
     each(r.items, function (it) { t.push("• " + it.q + " × " + it.r.full + " = " + money(it.net) + " RON"); });
     t.push("• TOTAL ESTIMAT: " + money(r.total) + " RON cu TVA");
     t.push(""); t.push("Link configurație: " + shareUrl());
-    t.push(""); t.push("Vă rog o ofertă completă, cu transport. Mulțumesc!");
+    t.push(""); t.push("Vă rog o ofertă completă, cu colțarele / profilele L potrivite și transport. Mulțumesc!");
     return t.join("\n");
   }
   function update() {
@@ -470,7 +458,7 @@
   function params(withTest) {
     var p = new URLSearchParams();
     if (withTest && /[?&]vdtest=1/.test(location.search)) p.set("vdtest", "1");
-    p.set("c", S.c); p.set("w", S.w); p.set("h", S.h); p.set("o", S.or); p.set("sp", S.sp); p.set("bt", S.bt); p.set("k", S.k);
+    p.set("c", S.c); p.set("w", S.w); p.set("h", S.h); p.set("o", S.or); p.set("sp", S.sp); p.set("bt", S.bt);
     return p;
   }
   function scheduleUrl() {
@@ -489,7 +477,6 @@
     var c = p.get("c"); if (c && BY[c] && BY[c].kind === "board") S.c = c;
     int("w", LIM.w[0], LIM.w[1], function (v) { S.w = v; });
     int("h", LIM.h[0], LIM.h[1], function (v) { S.h = v; });
-    int("k", LIM.k[0], LIM.k[1], function (v) { S.k = v; });
     if (p.get("o") === "v" || p.get("o") === "h") S.or = p.get("o");
     int("sp", 0, 999, function (v) { if (SP_OPTS.indexOf(v) > -1) S.sp = v; });
     if (p.get("bt") === "0" || p.get("bt") === "1") S.bt = +p.get("bt");
@@ -653,10 +640,16 @@
     o.push('<text x="726" y="' + (y + 44) + '" text-anchor="end" font-family="' + M + '" font-size="11" fill="#8FA79A">TVA inclus</text>');
     y += 66;
     o.push('<rect x="52" y="' + y + '" width="690" height="42" fill="#E9F2EC" rx="3"/>');
+    var noteY = y;
     o.push('<text x="64" y="' + (y + 18) + '" font-family="' + F + '" font-size="10.5" fill="' + green + '">' +
       (r.useBat ? "Grinzi la aproximativ 300 mm, maximum 400 mm, perpendicular pe lamele. Montajul începe de jos în sus." :
         "Grinzile de montaj nu sunt incluse: lamelele se prind pe structura existentă, la maximum 400 mm.") + "</text>");
     o.push('<text x="64" y="' + (y + 33) + '" font-family="' + F + '" font-size="10.5" fill="' + green + '">Transportul se ofertează separat. Prețurile din pagina fiecărui produs sunt cele oficiale.</text>');
+    /* colțarele si profilele L nu intra in calcul: le spunem clar si ce are de facut */
+    y = noteY + 50;
+    o.push('<rect x="52" y="' + y + '" width="690" height="42" fill="#FBF1E3" stroke="#E8C79E" rx="3"/>');
+    o.push('<text x="64" y="' + (y + 18) + '" font-family="' + F + '" font-size="10.5" font-weight="700" fill="#8A4B0B">Colțarele și profilele L de închidere nu sunt incluse în această estimare.</text>');
+    o.push('<text x="64" y="' + (y + 33) + '" font-family="' + F + '" font-size="10.5" fill="#8A4B0B">Adaugă-le în coș din categoria Lambriu WPC sau cere-ne oferta completă la 0747 127 292 și le calculăm noi.</text>');
     LINK_BOX.y = Math.max(y + 56, 900);
     var ly = LINK_BOX.y;
     o.push('<rect x="52" y="' + ly + '" width="690" height="' + LINK_BOX.h + '" fill="' + green + '" rx="3"/>');
@@ -748,7 +741,7 @@
         necesar_ml: +(r.order * 2.9).toFixed(2),
         total_ron: +r.total.toFixed(2),
         cere_cadre: false, cere_stalpi: false,
-        calculator: "lambriu", configuratie: cfg + (r.useBat ? "" : "; fara grinzi (structura existenta)") + (S.or === "v" ? "; montaj vertical" : "; montaj orizontal"),
+        calculator: "lambriu", configuratie: cfg + "; FARA coltare / profile L (de inclus in oferta)" + (r.useBat ? "" : "; fara grinzi (structura existenta)") + (S.or === "v" ? "; montaj vertical" : "; montaj orizontal"),
         data: new Date().toISOString()
       };
       fetch(LEAD_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
@@ -853,7 +846,6 @@
     fillInputs();
     bindNum("vdLW", "vdLFieldW", function () { return S.w; }, function (v) { S.w = v; }, LIM.w[0], LIM.w[1]);
     bindNum("vdLH", "vdLFieldH", function () { return S.h; }, function (v) { S.h = v; }, LIM.h[0], LIM.h[1]);
-    bindNum("vdLK", "vdLFieldK", function () { return S.k; }, function (v) { S.k = v; }, LIM.k[0], LIM.k[1]);
     renderControls();
     update();
     bindPdf();
