@@ -69,7 +69,7 @@
         a: parseFloat(d.a) || 0, b: parseFloat(d.b) || 0, cover: parseFloat(d.cover) || 0,
         tiers: parseTiers(d.tiers), kg: d.kg ? parseFloat(d.kg) : NaN,
         corner: d.corner || "", trim: d.trim || "", fam: d.fam || "",
-        sup: (d.sup || "").split(" "), st: d.st || "", pu: pu, nosync: d.nosync === "1", row: r
+        sup: (d.sup || "").split(" "), st: d.st || "", pu: pu, nosync: d.nosync === "1", profile: d.profile || "p219", row: r
       };
       if (!isNaN(o.price) && o.price > 0) { ROWS.push(o); BY[o.id] = o; }
     });
@@ -171,56 +171,128 @@
       if (t !== "title" && t !== "desc") svg.removeChild(n);
     });
   }
-  /* ---- textura riflajului, dupa profilul real 219 x 26 (fisa tehnica):
-     pe latimea utila de 200 mm sunt 4 nervuri de 36,5 mm si 4 canale de
-     13,5 mm, deci un modul de 50 mm. Canalele au ~14 mm adancime: aproape
-     negre, cu un perete in umbra si unul luminat. Fata nervurii are fibra
-     fina de lemn pe lungime; la co-extrudat dungi mai marcate si nuante
-     usor diferite de la o nervura la alta. Imbinarile dintre placi cad in
-     canal, deci nu se vad. ---- */
-  var MOD = 50, GRV = 13.5, RIB = MOD - GRV;
+  /* ---- textura riflajului (04.10.2026, refacuta dupa fotografiile de pe vivodecor.ro) ----
+     Se genereaza o imagine (canvas) cu 4 placi x 1,2 m, folosita ca model repetat pe perete:
+     - forma: profilul p219 (4 nervuri egale, canal 13,5 mm la fiecare 50 mm, fisa tehnica) sau
+       p220 (co-extrudat Gri Antracit / Maro Alun: nervuri inguste si late alternativ, canale ~11 mm,
+       centrele la 0/37/114/149 mm pe placa, masurat pe pozele clientilor);
+     - canal: perete in umbra, fund intunecat, perete luminat (lumina din stanga-sus);
+     - nervura: muchii usor rotunjite, lucire laterala, fibra fina periata (pete scurte) + dungi
+       largi; la co-extrudat nuante diferite pe nervuri si dungi calde (doar la maro/bej);
+     - culoare: mai luminoasa la culorile inchise (lumina de zi), saturata usor la cele terne.
+     Imaginea se calculeaza o data pe culoare si se tine in memorie. Daca browserul nu are
+     canvas (ex. testele jsdom), desenul foloseste culoarea medie. ---- */
+  var PROFILES = {
+    p219: { grooves: [[0, 13.5], [50, 13.5], [100, 13.5], [150, 13.5]], shadowW: 0.26, litW: 0.30, dark: 0.70 },
+    p220: { grooves: [[-5.5, 11], [31.5, 11], [108.5, 11], [143.5, 11]], shadowW: 0.34, litW: 0.12, dark: 0.72 }
+  };
   function darken(hex, k) {
     var m = /^#?([0-9a-f]{6})$/i.exec(hex); if (!m) return hex;
     var n = parseInt(m[1], 16), out = "#";
     each([16, 8, 0], function (sh) { out += ("0" + Math.round(((n >> sh) & 255) * (1 - k)).toString(16)).slice(-2); });
     return out;
   }
-  function rng(seed) {
-    return function () { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
-  }
   function seedOf(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function hash3(x, y, s) {
+    var h = (x * 374761393 + y * 668265263 + s * 2147483647) | 0;
+    h = Math.imul(h ^ (h >>> 13), 1274126177); h = h ^ (h >>> 16);
+    return (h >>> 0) / 4294967296;
+  }
+  /* zgomot periodic pe ambele axe (perioada px, py celule): textura se repeta fara cusatura */
+  function pnoise(x, y, s, px, py) {
+    var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    var x0 = ((xi % px) + px) % px, x1 = (x0 + 1) % px, y0 = ((yi % py) + py) % py, y1 = (y0 + 1) % py;
+    var a = hash3(x0, y0, s), b = hash3(x1, y0, s), c = hash3(x0, y1, s), d = hash3(x1, y1, s);
+    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+  }
+  var TEX_CACHE = {};
+  function riflajTexture(b, k) {
+    var key = b.id + "|" + k;
+    if (TEX_CACHE[key] !== undefined) return TEX_CACHE[key];
+    var TW = 800, TH = 1200, W = Math.round(TW * k), H = Math.round(TH * k), cv, ctx;
+    try { cv = document.createElement("canvas"); cv.width = W; cv.height = H; ctx = cv.getContext("2d"); } catch (e) { ctx = null; }
+    if (!ctx || !ctx.createImageData) { TEX_CACHE[key] = null; return null; }
+    var prof = PROFILES[b.profile] || PROFILES.p219, coex = (b.line || "").indexOf("cox") === 0, seed = seedOf(b.id);
+    var m0 = /^#?([0-9a-f]{6})$/i.exec(b.hex), n0 = parseInt(m0 ? m0[1] : "8A7A6A", 16);
+    var b0 = [(n0 >> 16) & 255, (n0 >> 8) & 255, n0 & 255], gray = (b0[0] + b0[1] + b0[2]) / 3;
+    var chroma = (Math.max(b0[0], b0[1], b0[2]) - Math.min(b0[0], b0[1], b0[2])) / 255, sat = chroma > 0.25 ? 1 : 1.1;
+    var base = [gray + (b0[0] - gray) * sat, gray + (b0[1] - gray) * sat, gray + (b0[2] - gray) * sat];
+    var bright = 1 + 0.24 * Math.max(0, 1 - gray / 150), warm = Math.max(0, Math.min(1, (b0[0] - b0[2]) / 60));
+    var warmK = Math.max(0, Math.min(1, (b0[0] - b0[2]) / 50));
+    var A = coex ? 0.07 : 0.035, ribTk = coex ? 0.02 + 0.045 * warmK : 0.025;
+    /* segmentele unei placi de 200 mm: canalele din profil si nervurile dintre ele */
+    var gl = map(prof.grooves, function (q) { var s0 = ((q[0] % 200) + 200) % 200; return [s0, s0 + q[1]]; }).sort(function (p1, p2) { return p1[0] - p2[0]; });
+    var segs = [], g, px, py;
+    for (g = 0; g < gl.length; g++) { segs.push([gl[g][0], gl[g][1], 1, g]); segs.push([gl[g][1], g + 1 < gl.length ? gl[g + 1][0] : gl[0][0] + 200, 0, g]); }
+    var cT = new Int8Array(W), cU = new Float32Array(W), cW = new Float32Array(W), cR = new Int32Array(W);
+    for (px = 0; px < W; px++) {
+      var x = (px + 0.5) / k, bd = Math.floor(x / 200), bx = x - bd * 200;
+      if (bx < segs[0][0]) { bx += 200; bd -= 1; }
+      for (var si = 0; si < segs.length; si++) {
+        var sg = segs[si];
+        if (bx >= sg[0] && bx < sg[1]) { cT[px] = sg[2]; cU[px] = (bx - sg[0]) / (sg[1] - sg[0]); cW[px] = sg[1] - sg[0]; cR[px] = bd * 8 + sg[3]; break; }
+      }
+    }
+    var tones = {};
+    function tone(id) { if (tones[id] === undefined) tones[id] = hash3(id, 11, seed) - 0.5; return tones[id]; }
+    var pFX = Math.round(TW / 0.5), pFY = Math.round(TH / 22), pBX = Math.round(TW / 5), pBY = Math.max(1, Math.round(TH / 520)), pWX = Math.round(TW / 40), pWY = Math.max(1, Math.round(TH / 700));
+    var fX = TW / pFX, fY = TH / pFY, bX = TW / pBX, bY = TH / pBY, wX = TW / pWX, wY = TH / pWY;
+    var img = ctx.createImageData(W, H), d = img.data, dk = prof.dark, lit = 0.40, shW = prof.shadowW, ltW = prof.litW;
+    for (py = 0; py < H; py++) {
+      var y = py / k;
+      for (px = 0; px < W; px++) {
+        var xx = px / k, i = (py * W + px) * 4, m;
+        var wob = (pnoise(xx / wX, y / wY, seed + 5, pWX, pWY) - 0.5) * 2.2;
+        /* fiecare coloana a fibrei fine are grila decalata pe inaltime: fara decalaj, celulele
+           zgomotului se aliniaza si de departe apar randuri orizontale ondulate */
+        var fx = (xx + wob) / fX, nf = pnoise(fx, y / fY + hash3(Math.floor(fx), 7, seed) * 7.3, seed, pFX, pFY);
+        var nb = pnoise((xx + wob) / bX, y / bY + hash3(Math.floor((xx + wob) / bX), 9, seed) * 3.1, seed + 3, pBX, pBY);
+        var grain = (nf > 0.62 ? (nf - 0.62) * 2.6 : (nf - 0.62) * 0.35) + (nb - 0.5) * 0.35;
+        if (cT[px] === 1) {
+          var u = cU[px];
+          if (u < shW) m = 1 - (dk + 0.08);
+          else if (u > 1 - ltW) m = 1 - (dk - (dk - lit) * Math.pow((u - (1 - ltW)) / ltW, 0.7));
+          else m = 1 - dk;
+          m *= 1 + grain * A * 0.6;
+        } else {
+          var vv = cU[px], e = 1.6 / cW[px];
+          m = bright * (1 + 0.08 * (0.5 - vv));
+          if (vv < e) m += 0.07 * (1 - vv / e);
+          if (vv > 1 - e) m -= 0.09 * ((vv - (1 - e)) / e);
+          m *= 1 + tone(cR[px]) * ribTk * 2 + grain * A;
+        }
+        var r = base[0] * m, gg = base[1] * m, bb = base[2] * m;
+        if (coex && cT[px] === 0) {
+          var st = (nb - 0.5) * 0.06;
+          r += 255 * st * (0.6 + 0.3 * warm); gg += 255 * st * (0.6 - 0.05 * warm); bb += 255 * st * (0.6 - 0.35 * warm);
+        }
+        d[i] = r < 0 ? 0 : r > 255 ? 255 : r; d[i + 1] = gg < 0 ? 0 : gg > 255 ? 255 : gg; d[i + 2] = bb < 0 ? 0 : bb > 255 ? 255 : bb; d[i + 3] = 255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+    var url; try { url = cv.toDataURL("image/jpeg", 0.9); } catch (e2) { url = ""; }
+    TEX_CACHE[key] = url ? { url: url, w: TW, h: TH } : null;
+    return TEX_CACHE[key];
+  }
   function linGrad(defs, id, stops, vertical) {
     var g = el("linearGradient", vertical ? { id: id, x1: "0", y1: "0", x2: "0", y2: "1" } : { id: id, x1: "0", y1: "0", x2: "1", y2: "0" });
     each(stops, function (s) { g.appendChild(el("stop", { offset: s[0], "stop-color": s[1], "stop-opacity": s[2] === undefined ? 1 : s[2] })); });
     defs.appendChild(g);
   }
-  /* intoarce culoarea plina de folosit cand canalele ar iesi sub ~1 px
-     (pereti foarte lati); altfel "" si textura completa e in defs */
-  function riflajDefs(defs, b, vert, W, H, pxPerMm) {
-    var base = b.hex, coex = (b.line || "").indexOf("cox") === 0;
-    var grooveC = darken(base, 0.74);
-    if (GRV * pxPerMm < 0.3) return darken(base, 0.74 * GRV / MOD);   /* media nervura + canal */
+  /* pune textura in defs (pattern#vdRTex) si intoarce "" ; sau intoarce culoarea medie de folosit
+     daca textura nu se poate genera sau ar fi sub ~0,15 px pe canal */
+  function riflajDefs(defs, b, vert, W, H, pxPerMm, mob) {
+    var avg = darken(b.hex, 0.74 * 13.5 / 50);
+    if (13.5 * pxPerMm < 0.15) return avg;
+    var t = riflajTexture(b, mob ? 0.9 : 1.25);
+    if (!t) return avg;
     var tf = vert ? "translate(" + EDGE + ",0)" : "translate(0," + (H - EDGE) + ") rotate(90)";
-    linGrad(defs, "vdRGrvG", [["0%", darken(base, 0.86)], ["28%", grooveC], ["72%", grooveC], ["100%", darken(base, 0.42)]]);
-    linGrad(defs, "vdRRibG", [["0%", lighten(base, 0.16)], ["7%", lighten(base, 0.05)], ["50%", base], ["90%", darken(base, 0.1)], ["100%", darken(base, 0.3)]]);
-    var p = el("pattern", { id: "vdRRib", patternUnits: "userSpaceOnUse", width: MOD, height: 100, patternTransform: tf });
-    p.appendChild(el("rect", { x: 0, y: 0, width: GRV, height: 100, fill: "url(#vdRGrvG)" }));
-    p.appendChild(el("rect", { x: GRV, y: 0, width: RIB, height: 100, fill: "url(#vdRRibG)" }));
-    defs.appendChild(p);
-    /* fibra: 8 nervuri x LEN mm, generata determinist (aceeasi la fiecare desen) */
-    var LEN = 1450, R = rng(seedOf(b.id)), q = el("pattern", { id: "vdRGrain", patternUnits: "userSpaceOnUse", width: MOD * 8, height: LEN, patternTransform: tf });
-    var toneK = coex ? 0.11 : 0.06, nStreak = coex ? 16 : 10, opK = coex ? 0.13 : 0.08;
-    for (var r = 0; r < 8; r++) {
-      var x0 = r * MOD + GRV, tone = R();
-      q.appendChild(el("rect", { x: x0, y: 0, width: RIB, height: LEN, fill: tone < 0.5 ? "#000" : "#fff", "fill-opacity": (Math.abs(tone - 0.5) * 2 * toneK).toFixed(3) }));
-      for (var s = 0; s < nStreak; s++) {
-        var sx = x0 + 1 + R() * (RIB - 2.5), sw2 = 0.35 + R() * (coex ? 2.2 : 1.3), sy = R() * LEN, sh = 180 + R() * (LEN - 180);
-        var at = { width: sw2.toFixed(2), height: sh.toFixed(0), fill: R() < 0.55 ? "#000" : "#fff", "fill-opacity": (0.025 + R() * opK).toFixed(3) };
-        at.x = sx.toFixed(2); at.y = sy.toFixed(0); q.appendChild(el("rect", at));
-        if (sy + sh > LEN) { var at2 = {}; for (var kk in at) at2[kk] = at[kk]; at2.y = (sy - LEN).toFixed(0); q.appendChild(el("rect", at2)); }
-      }
-    }
-    defs.appendChild(q);
+    var p = el("pattern", { id: "vdRTex", patternUnits: "userSpaceOnUse", width: t.w, height: t.h, patternTransform: tf });
+    var im = el("image", { x: 0, y: 0, width: t.w, height: t.h, preserveAspectRatio: "none" });
+    im.setAttribute("href", t.url);
+    try { im.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", t.url); } catch (e) {}
+    p.appendChild(im); defs.appendChild(p);
     return "";
   }
   function dimH(g, x1, x2, y, label, fs, sw) {
@@ -282,7 +354,7 @@
     var defs = el("defs");
     /* cati pixeli are un mm pe ecran: sub ~1 px pe canal textura s-ar amesteca (moire) */
     var shown = svg.getBoundingClientRect ? svg.getBoundingClientRect().width : 0;
-    var flat = riflajDefs(defs, res.board, vert, W, H, (shown > 50 ? shown : (mob ? 340 : 620)) / v);
+    var flat = riflajDefs(defs, res.board, vert, W, H, (shown > 50 ? shown : (mob ? 340 : 620)) / v, mob);
     linGrad(defs, "vdRLight", [["0%", "#fff", 0.10], ["40%", "#fff", 0], ["100%", "#000", 0.16]], true);
     svg.appendChild(defs);
     var g = el("g"); svg.appendChild(g);
@@ -291,19 +363,20 @@
     /* placarea: o singura suprafata, cu 20 mm dilatare pe toate laturile */
     var pa = { x: EDGE, y: EDGE, width: W - 2 * EDGE, height: H - 2 * EDGE };
     function paRect(extra) { var a = {}, k; for (k in pa) a[k] = pa[k]; for (k in extra) a[k] = extra[k]; g.appendChild(el("rect", a)); }
-    paRect({ fill: flat || "url(#vdRRib)" });
-    if (!flat) paRect({ fill: "url(#vdRGrain)" });
+    paRect({ fill: flat || "url(#vdRTex)" });
     paRect({ fill: "url(#vdRLight)" });
     paRect({ fill: "none", stroke: darken(res.board.hex, 0.6), "stroke-width": sw * 0.6 });
     /* grinzile de montaj: doar cand sunt incluse in calcul */
-    var sp = S.sp, j, runL = vert ? H : W, BC = "#8A98A4";
+    var sp = S.sp, j, runL = vert ? H : W, BC = "#D7E0E6";
     function batLine(pos, wdt) {
-      var a = { stroke: BC, "stroke-width": sw * wdt, "stroke-dasharray": (sw * 4) + " " + (sw * 3), opacity: ".9" };
+      /* grinzile stau in spatele placilor: linie continua, subtire, deschisa, semitransparenta (liniile
+         punctate groase se amestecau cu nervurile si de departe dadeau randuri ondulate) */
+      var a = { stroke: BC, "stroke-width": sw * wdt, opacity: ".55" };
       if (vert) { a.x1 = 0; a.x2 = W; a.y1 = a.y2 = pos; } else { a.y1 = 0; a.y2 = H; a.x1 = a.x2 = pos; }
       g.appendChild(el("line", a));
     }
     if (res.useBat) {
-      each(B.G.reg, function (pos) { batLine(pos, 1.1); });
+      each(B.G.reg, function (pos) { batLine(pos, 0.7); });
     }
     var yDim = H + fs * 2.2;
     g.appendChild(el("line", { x1: 0, y1: H, x2: 0, y2: yDim + fs * 0.6, stroke: TECH, "stroke-width": sw * 0.6, "stroke-dasharray": "14 12" }));
@@ -320,7 +393,7 @@
     var ly0 = yDim + fs * 1.3;
     each(leg, function (L, n) {
       var y = ly0 + n * lh, x0 = 0, x1 = lf * 3.2;
-      g.appendChild(el("line", { x1: x0, y1: y - lf * 0.2, x2: x1, y2: y - lf * 0.2, stroke: "#8A98A4", "stroke-width": sw * 1.1, "stroke-dasharray": (sw * 4) + " " + (sw * 3) }));
+      g.appendChild(el("line", { x1: x0, y1: y - lf * 0.2, x2: x1, y2: y - lf * 0.2, stroke: "#8A98A4", "stroke-width": sw * 0.8 }));
       g.appendChild(el("text", { x: x1 + lf * 0.6, y: y + lf * 0.2, "font-size": lf, fill: "#4A5A52", "font-family": MONO }, L[1]));
     });
     var desc = svg.querySelector("#vdRDrawDesc");
@@ -437,6 +510,19 @@
     t.push(""); t.push("V\u0103 rog o ofert\u0103 complet\u0103, cu transport. Mul\u021bumesc!");
     return t.join("\n");
   }
+  /* pregateste in fundal texturile celorlalte culori din gama aleasa, cate una la ~150 ms,
+     ca la primul click pe o culoare desenul sa apara imediat (generarea dureaza ~0,2-0,3 s) */
+  var warmLine = "";
+  function prewarm() {
+    if (warmLine === S.line) return;
+    warmLine = S.line;
+    var list = boardsOfLine(S.line), k = isMobile() ? 0.9 : 1.25, n = 0;
+    (function next() {
+      if (n >= list.length || warmLine !== S.line) return;
+      riflajTexture(list[n++], k);
+      setTimeout(next, 150);
+    })();
+  }
   function update() {
     var r = compute();
     draw(r);
@@ -458,6 +544,7 @@
       $("vdRDockCta").href = main.r.url;
     }
     scheduleUrl();
+    setTimeout(prewarm, 700);
   }
 
   /* ---------------- stare in URL ---------------- */
