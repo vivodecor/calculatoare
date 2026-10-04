@@ -171,12 +171,57 @@
       if (t !== "title" && t !== "desc") svg.removeChild(n);
     });
   }
-  function gradient(defs, id, hex, hex2, vertical) {
+  /* ---- textura riflajului, dupa profilul real 219 x 26 (fisa tehnica):
+     pe latimea utila de 200 mm sunt 4 nervuri de 36,5 mm si 4 canale de
+     13,5 mm, deci un modul de 50 mm. Canalele au ~14 mm adancime: aproape
+     negre, cu un perete in umbra si unul luminat. Fata nervurii are fibra
+     fina de lemn pe lungime; la co-extrudat dungi mai marcate si nuante
+     usor diferite de la o nervura la alta. Imbinarile dintre placi cad in
+     canal, deci nu se vad. ---- */
+  var MOD = 50, GRV = 13.5, RIB = MOD - GRV;
+  function darken(hex, k) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex); if (!m) return hex;
+    var n = parseInt(m[1], 16), out = "#";
+    each([16, 8, 0], function (sh) { out += ("0" + Math.round(((n >> sh) & 255) * (1 - k)).toString(16)).slice(-2); });
+    return out;
+  }
+  function rng(seed) {
+    return function () { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+  }
+  function seedOf(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function linGrad(defs, id, stops, vertical) {
     var g = el("linearGradient", vertical ? { id: id, x1: "0", y1: "0", x2: "0", y2: "1" } : { id: id, x1: "0", y1: "0", x2: "1", y2: "0" });
-    g.appendChild(el("stop", { offset: "0%", "stop-color": hex2 }));
-    g.appendChild(el("stop", { offset: "55%", "stop-color": hex }));
-    g.appendChild(el("stop", { offset: "100%", "stop-color": hex2 }));
+    each(stops, function (s) { g.appendChild(el("stop", { offset: s[0], "stop-color": s[1], "stop-opacity": s[2] === undefined ? 1 : s[2] })); });
     defs.appendChild(g);
+  }
+  /* intoarce culoarea plina de folosit cand canalele ar iesi sub ~1 px
+     (pereti foarte lati); altfel "" si textura completa e in defs */
+  function riflajDefs(defs, b, vert, W, H, pxPerMm) {
+    var base = b.hex, coex = (b.line || "").indexOf("cox") === 0;
+    var grooveC = darken(base, 0.74);
+    if (GRV * pxPerMm < 0.3) return darken(base, 0.74 * GRV / MOD);   /* media nervura + canal */
+    var tf = vert ? "translate(" + EDGE + ",0)" : "translate(0," + (H - EDGE) + ") rotate(90)";
+    linGrad(defs, "vdRGrvG", [["0%", darken(base, 0.86)], ["28%", grooveC], ["72%", grooveC], ["100%", darken(base, 0.42)]]);
+    linGrad(defs, "vdRRibG", [["0%", lighten(base, 0.16)], ["7%", lighten(base, 0.05)], ["50%", base], ["90%", darken(base, 0.1)], ["100%", darken(base, 0.3)]]);
+    var p = el("pattern", { id: "vdRRib", patternUnits: "userSpaceOnUse", width: MOD, height: 100, patternTransform: tf });
+    p.appendChild(el("rect", { x: 0, y: 0, width: GRV, height: 100, fill: "url(#vdRGrvG)" }));
+    p.appendChild(el("rect", { x: GRV, y: 0, width: RIB, height: 100, fill: "url(#vdRRibG)" }));
+    defs.appendChild(p);
+    /* fibra: 8 nervuri x LEN mm, generata determinist (aceeasi la fiecare desen) */
+    var LEN = 1450, R = rng(seedOf(b.id)), q = el("pattern", { id: "vdRGrain", patternUnits: "userSpaceOnUse", width: MOD * 8, height: LEN, patternTransform: tf });
+    var toneK = coex ? 0.11 : 0.06, nStreak = coex ? 16 : 10, opK = coex ? 0.13 : 0.08;
+    for (var r = 0; r < 8; r++) {
+      var x0 = r * MOD + GRV, tone = R();
+      q.appendChild(el("rect", { x: x0, y: 0, width: RIB, height: LEN, fill: tone < 0.5 ? "#000" : "#fff", "fill-opacity": (Math.abs(tone - 0.5) * 2 * toneK).toFixed(3) }));
+      for (var s = 0; s < nStreak; s++) {
+        var sx = x0 + 1 + R() * (RIB - 2.5), sw2 = 0.35 + R() * (coex ? 2.2 : 1.3), sy = R() * LEN, sh = 180 + R() * (LEN - 180);
+        var at = { width: sw2.toFixed(2), height: sh.toFixed(0), fill: R() < 0.55 ? "#000" : "#fff", "fill-opacity": (0.025 + R() * opK).toFixed(3) };
+        at.x = sx.toFixed(2); at.y = sy.toFixed(0); q.appendChild(el("rect", at));
+        if (sy + sh > LEN) { var at2 = {}; for (var kk in at) at2[kk] = at[kk]; at2.y = (sy - LEN).toFixed(0); q.appendChild(el("rect", at2)); }
+      }
+    }
+    defs.appendChild(q);
+    return "";
   }
   function dimH(g, x1, x2, y, label, fs, sw) {
     g.appendChild(el("line", { x1: x1, y1: y, x2: x2, y2: y, stroke: TECH, "stroke-width": sw }));
@@ -235,32 +280,21 @@
     svg.setAttribute("viewBox", (-padL) + " " + (-padT) + " " + v + " " + hv);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
     var defs = el("defs");
-    gradient(defs, "vdRGrad", res.board.hex, res.board.hex2, !vert);
+    /* cati pixeli are un mm pe ecran: sub ~1 px pe canal textura s-ar amesteca (moire) */
+    var shown = svg.getBoundingClientRect ? svg.getBoundingClientRect().width : 0;
+    var flat = riflajDefs(defs, res.board, vert, W, H, (shown > 50 ? shown : (mob ? 340 : 620)) / v);
+    linGrad(defs, "vdRLight", [["0%", "#fff", 0.10], ["40%", "#fff", 0], ["100%", "#000", 0.16]], true);
     svg.appendChild(defs);
     var g = el("g"); svg.appendChild(g);
     ground(g, -padL + 40, fullW + 40, H, sw);
     g.appendChild(el("rect", { x: 0, y: 0, width: W, height: H, fill: "#E4E7E3", stroke: "#B9C6BC", "stroke-width": sw }));
-    var many = B.count > 90, grooves = 4, i, k, jn = "#FBFAF7";
-    for (i = 0; i < B.count; i++) {
-      if (vert) {
-        var bx = EDGE + i * cover, bw = Math.min(cover, W - EDGE - bx);
-        if (bw <= 0) break;
-        g.appendChild(el("rect", { x: bx, y: EDGE, width: bw, height: H - 2 * EDGE, fill: "url(#vdRGrad)", stroke: "rgba(0,0,0,.30)", "stroke-width": sw * 0.5 }));
-        if (!many) for (k = 1; k < grooves; k++) {
-          var gx = bx + cover * k / grooves;
-          if (gx < bx + bw) g.appendChild(el("line", { x1: gx, y1: EDGE, x2: gx, y2: H - EDGE, stroke: "rgba(0,0,0,.22)", "stroke-width": sw * 0.55 }));
-        }
-      } else {
-        var by = H - EDGE - (i + 1) * cover, bh = cover;
-        if (by < EDGE) { bh = cover - (EDGE - by); by = EDGE; }
-        if (bh <= 0) break;
-        g.appendChild(el("rect", { x: EDGE, y: by, width: W - 2 * EDGE, height: bh, fill: "url(#vdRGrad)", stroke: "rgba(0,0,0,.30)", "stroke-width": sw * 0.5 }));
-        if (!many) for (k = 1; k < grooves; k++) {
-          var gy = by + bh - cover * k / grooves;
-          if (gy > by) g.appendChild(el("line", { x1: EDGE, y1: gy, x2: W - EDGE, y2: gy, stroke: "rgba(0,0,0,.22)", "stroke-width": sw * 0.55 }));
-        }
-      }
-    }
+    /* placarea: o singura suprafata, cu 20 mm dilatare pe toate laturile */
+    var pa = { x: EDGE, y: EDGE, width: W - 2 * EDGE, height: H - 2 * EDGE };
+    function paRect(extra) { var a = {}, k; for (k in pa) a[k] = pa[k]; for (k in extra) a[k] = extra[k]; g.appendChild(el("rect", a)); }
+    paRect({ fill: flat || "url(#vdRRib)" });
+    if (!flat) paRect({ fill: "url(#vdRGrain)" });
+    paRect({ fill: "url(#vdRLight)" });
+    paRect({ fill: "none", stroke: darken(res.board.hex, 0.6), "stroke-width": sw * 0.6 });
     /* grinzile de montaj: doar cand sunt incluse in calcul */
     var sp = S.sp, j, runL = vert ? H : W, BC = "#8A98A4";
     function batLine(pos, wdt) {
