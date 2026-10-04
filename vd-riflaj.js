@@ -742,6 +742,11 @@
       (r.useBat ? "Grinzi la maximum 400 mm ax, 20 mm dilatare pe toate laturile." :
         "Grinzile de montaj nu sunt incluse: pl\u0103cile se prind pe structura existent\u0103, cu \u00eembin\u0103rile pe elementele ei.") + "</text>");
     o.push('<text x="64" y="' + (y + 33) + '" font-family="' + F + '" font-size="10.5" fill="' + green + '">Transportul se oferteaz\u0103 separat. Pre\u021burile din pagina fiec\u0103rui produs sunt cele oficiale.</text>');
+    /* coltarele si profilele L nu intra in calcul: le spunem clar si ce are de facut (ca la lambriu) */
+    y += 50;
+    o.push('<rect x="52" y="' + y + '" width="690" height="42" fill="#FBF1E3" stroke="#E8C79E" rx="3"/>');
+    o.push('<text x="64" y="' + (y + 18) + '" font-family="' + F + '" font-size="10.5" font-weight="700" fill="#8A4B0B">Col\u021barele \u0219i profilele L de finisaj nu sunt incluse \u00een aceast\u0103 estimare.</text>');
+    o.push('<text x="64" y="' + (y + 33) + '" font-family="' + F + '" font-size="10.5" fill="#8A4B0B">Adaug\u0103-le \u00een co\u0219 din categoria Riflaj WPC sau cere-ne oferta complet\u0103 la 0747 127 292 \u0219i le calcul\u0103m noi.</text>');
     LINK_BOX.y = Math.max(y + 56, 900);
     var ly = LINK_BOX.y;
     o.push('<rect x="52" y="' + ly + '" width="690" height="' + LINK_BOX.h + '" fill="' + green + '" rx="3"/>');
