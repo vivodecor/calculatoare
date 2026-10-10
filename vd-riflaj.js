@@ -536,7 +536,7 @@
     var wa = encodeURIComponent(waText(r, lines));
     $("vdRCta").innerHTML = '<a class="vd-btn vd-btn-primary" href="' + esc(main.r.url) + '"><span>Comand\u0103 ' + main.q + " buc \u00b7 " + esc(main.r.name) +
       "<small>Adaug\u0103 cantitatea \u00een co\u0219; accesoriile se comand\u0103 din lista de mai sus</small></span><i>" + ARROW + "</i></a>" +
-      '<a class="vd-btn vd-btn-ghost" href="https://wa.me/40747127292?text=' + wa + '"><span>Trimite configura\u021bia pe WhatsApp<small>Cu toate cantit\u0103\u021bile \u0219i linkul de mai sus</small></span><i>' + ARROW + "</i></a>";
+      '<a class="vd-btn vd-btn-ghost" href="https://wa.me/40747127292?text=' + wa + '"><span>Vrei o ofert\u0103 mai bun\u0103? Trimite configura\u021bia pe WhatsApp<small>Cu toate cantit\u0103\u021bile \u0219i linkul de mai sus</small></span><i>' + ARROW + "</i></a>";
     var dt = $("vdRDockTotal");
     if (dt) {
       dt.textContent = money(r.total);

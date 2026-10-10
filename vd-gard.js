@@ -1,4 +1,4 @@
-/*! VIVODECOR - Calculator Gard WPC v1.0.15 (vd-gard.js) */
+/*! VIVODECOR - Calculator Gard WPC v1.0.17 (vd-gard.js) */
 (function () {
 /* ---- textura sipcii de gard (04.10.2026, dupa fotografiile de pe vivodecor.ro) ----
    O imagine (canvas -> JPEG) cu 4 sipci de 150 mm, una sub alta, lungi de TW mm; fiecare sipca din
@@ -1011,7 +1011,7 @@ v.push("\u2022 St\xe2lpi din aluminiu 70x70 mm: " + d + " buc, lungime " + u);
 v.push("");
 v.push("V\u0103 rog o ofert\u0103 complet\u0103, cu profile de rigidizare \u0219i transport. Mul\u021bumesc!");
 var g = encodeURIComponent(v.join("\n"));
-s("vdCta").innerHTML = '<a class="vd-btn vd-btn-primary" href="' + e.color.url + '"><span>Comand\u0103 ' + f(e.orderMl, 2) + " ml \xb7 " + e.color.name + "<small>Adaug\u0103 cantitatea \xeen co\u0219 \u0219i scrie la Observa\u021bii: pl\u0103ci de " + f(e.bar / 1000, 1) + " m</small></span><i>" + I + '</i></a><a class="vd-btn vd-btn-ghost" href="https://wa.me/40747127292?text=' + g + '"><span>Trimite configura\u021bia pe WhatsApp<small>Se trimit toate detaliile de mai sus' + (n || l ? ", inclusiv structura bifat\u0103" : "") + "</small></span><i>" + I + "</i></a>";
+s("vdCta").innerHTML = '<a class="vd-btn vd-btn-primary" href="' + e.color.url + '"><span>Comand\u0103 ' + f(e.orderMl, 2) + " ml \xb7 " + e.color.name + "<small>Adaug\u0103 cantitatea \xeen co\u0219 \u0219i scrie la Observa\u021bii: pl\u0103ci de " + f(e.bar / 1000, 1) + " m</small></span><i>" + I + '</i></a><a class="vd-btn vd-btn-ghost" href="https://wa.me/40747127292?text=' + g + '"><span>Vrei o ofert\u0103 mai bun\u0103? Trimite configura\u021bia pe WhatsApp<small>Prime\u0219ti o ofert\u0103 personalizat\u0103, cu st\xe2lpi, cadre \u0219i transport' + (n || l ? " \xb7 inclusiv structura bifat\u0103" : "") + "</small></span><i>" + I + "</i></a>";
 var C = [ [ "chip", e.rows + " r\xe2nduri" ], [ "chip", "H " + f(e.realH, 0) + " mm" ], [ "chip", "distan\u021b\u0103 " + p.gap + " mm" ], [ "chip", p.panels + " panouri \xb7 " + f(e.runM, 1) + " m" ], [ "chip", e.endQty + "\xd7 distan\u021bier 30 mm" ] ];
 if (e.gapQty) {
 C.push([ "chip", e.gapQty + "\xd7 distan\u021bier " + p.gap + " mm" ]);
