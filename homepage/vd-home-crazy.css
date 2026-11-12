@@ -555,3 +555,9 @@
 #vd-home .vx-row--b li{width:150px}
 }
 @media(prefers-reduced-motion:reduce){#vd-home *,#vd-home *::before,#vd-home *::after{animation:none!important}#vd-home .vx-gal{overflow-x:auto}}
+#vd-home .vx-gh{margin-top:18px;padding:20px 22px;border:1px solid var(--line);border-radius:20px;background:var(--g0)}
+#vd-home .vx-gh h3{font-size:15px;margin:0 0 12px;color:var(--ink)}
+#vd-home .vx-gh ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px}
+#vd-home .vx-gh a{display:flex;flex-direction:column;padding:10px 14px;border-radius:12px;background:#fff;border:1px solid var(--line);color:var(--g8);font-weight:600;font-size:14px;transition:border-color .2s}
+#vd-home .vx-gh a:hover,#vd-home .vx-gh a:focus-visible{border-color:var(--g3)}
+#vd-home .vx-gh span{font-weight:400;font-size:12.5px;color:var(--mute)}
